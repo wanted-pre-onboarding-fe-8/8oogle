@@ -41,7 +41,7 @@ function Card() {
   };
 
   return (
-    <DefaultCard variant='outlined' style={{ borderRadius: '12px' }}>
+    <BasicCard variant='outlined' style={{ borderRadius: '12px' }}>
       <CardHeader title={campaignItem.title} sx={{ pb: 0 }} />
       <CardContent>
         <TableContainer>
@@ -83,14 +83,35 @@ function Card() {
           삭제하기
         </Button>
       </ButtonWrapper>
-    </DefaultCard>
+    </BasicCard>
   );
 }
+
+const BasicCard = styled(DefaultCard)`
+  margin: 0 12px;
+  margin-bottom: 12px;
+  box-sizing: border-box;
+  width: 100%;
+
+  /* tablet */
+  @media (min-width: 678px) {
+    width: calc(50% - 24px);
+  }
+
+  /* desktop */
+  @media (min-width: 1024px) {
+    width: calc(33.33333% - 24px);
+  }
+`;
 
 const Row = styled(TableRow)`
   & > td:first-child {
     padding-left: 0;
     color: gray;
+  }
+
+  & > td {
+    padding: 0.5rem;
   }
 `;
 
