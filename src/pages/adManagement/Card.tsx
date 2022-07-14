@@ -13,6 +13,7 @@ import {
   TableContainer,
   TableRow,
 } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 // interface CardProps {
 //   campaignItem: ICampaignItem;
@@ -33,6 +34,12 @@ function Card() {
       roas: 433,
     },
   };
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/ad/edit/${campaignItem.id}`, { state: campaignItem });
+  };
+
   return (
     <DefaultCard variant='outlined' style={{ borderRadius: '12px' }}>
       <CardHeader title={campaignItem.title} sx={{ pb: 0 }} />
@@ -69,7 +76,7 @@ function Card() {
         </TableContainer>
       </CardContent>
       <ButtonWrapper sx={{ p: 0, pb: 2 }}>
-        <Button size='small' variant='outlined' color='inherit'>
+        <Button size='small' variant='outlined' color='inherit' onClick={handleClick}>
           수정하기
         </Button>
         <Button size='small' variant='outlined' color='warning'>
