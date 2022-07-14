@@ -93,6 +93,10 @@ const BasicCard = styled(DefaultCard)`
   box-sizing: border-box;
   width: 100%;
 
+  &:hover {
+    border: 1px solid blue;
+  }
+
   /* tablet */
   @media (min-width: 678px) {
     width: calc(50% - 24px);
