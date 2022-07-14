@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function AdManagement() {
-  return <div>AdManagement</div>
+  return <div>AdManagement</div>;
 }
 
-export default AdManagement
+export default AdManagement;

@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function AdEdit() {
-  return <div>AdEdit</div>
+  return <div>AdEdit</div>;
 }
 
-export default AdEdit
+export default AdEdit;
