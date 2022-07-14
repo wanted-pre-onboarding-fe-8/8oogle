@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function AdAdd() {
-  return <div>AdAdd</div>;
+  return <div>AdAdd</div>
 }
 
-export default AdAdd;
+export default AdAdd

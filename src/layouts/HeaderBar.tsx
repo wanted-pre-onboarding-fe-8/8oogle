@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react'
 
 function HeaderBar() {
-  return <div>Header</div>;
+  return <div>Header</div>
 }
 
-export default HeaderBar;
+export default HeaderBar

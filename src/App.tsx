@@ -1,7 +1,7 @@
-import DefaultRouter from "./routes/DefaultRouter";
+import DefaultRouter from './routes/DefaultRouter'
 
 function App() {
-  return <DefaultRouter />;
+  return <DefaultRouter />
 }
 
-export default App;
+export default App
