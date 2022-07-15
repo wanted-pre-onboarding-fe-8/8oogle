@@ -7,6 +7,11 @@ const platformBarOptions: ApexOptions = {
     stacked: true,
     stackType: '100%',
   },
+  plotOptions: {
+    bar: {
+      borderRadius: 10,
+    },
+  },
   responsive: [
     {
       breakpoint: 480,
@@ -25,11 +30,18 @@ const platformBarOptions: ApexOptions = {
   yaxis: {
     labels: {
       formatter: (value: number) => {
-        const formatted = `${Number(value.toFixed(0))}%`;
+        const formatted = `${value.toFixed(0)}%`;
         return formatted;
       },
     },
-    tooltip: {},
+  },
+  tooltip: {
+    y: {
+      formatter: (value: number) => {
+        const formatted = `${value.toFixed(0)}`;
+        return formatted;
+      },
+    },
   },
   fill: {
     opacity: 1,
