@@ -1,19 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { experimentalStyled } from '@mui/material/styles';
 import styled from 'styled-components';
 
 import { IOverallItem } from '../../types/overall';
+import lodash from 'lodash';
 
-export default function Indicators(response: IOverallItem): JSX.Element {
+export default function Indicators({
+  roasList,
+  costList,
+  impList,
+  clickList,
+  cvrList,
+  convValue,
+}: any): JSX.Element {
+  const sumRoasList = lodash.sum(roasList);
+  const sumCostList = lodash.sum(costList);
+  const sumImpList = lodash.sum(impList);
+  const sumClickList = lodash.sum(clickList);
+  const sumCvrList = lodash.sum(cvrList);
+  const sumConvValue = lodash.sum(convValue);
+
+  const [roas, setRoas] = useState<any>([]);
+  const [cost, setCost] = useState<any>([]);
+  const [click, setClick] = useState<any>([]);
+  const [cvr, setCvr] = useState<any>([]);
+  const [ctr, setCtr] = useState<any>([]);
+  const [cpc, setCvc] = useState<any>([]);
+
+  useEffect(() => {
+    console.log('받은 데이터는 여기에');
+  });
   return (
     <Box sx={{ p: 4 }}>
       <CardWrapper container spacing={0}>
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>Roas</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.roas}</Value>
+            <Value p={2}>{sumRoasList}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -24,7 +49,7 @@ export default function Indicators(response: IOverallItem): JSX.Element {
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>광고비</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.cost}</Value>
+            <Value p={2}>{sumCostList}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -35,7 +60,7 @@ export default function Indicators(response: IOverallItem): JSX.Element {
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>노출수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.convValue}</Value>
+            <Value p={2}>{sumImpList}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -46,7 +71,7 @@ export default function Indicators(response: IOverallItem): JSX.Element {
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>클릭수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.click}</Value>
+            <Value p={2}>{sumClickList}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -57,7 +82,7 @@ export default function Indicators(response: IOverallItem): JSX.Element {
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>전환수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.cvr}</Value>
+            <Value p={2}>{sumCvrList}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -68,7 +93,7 @@ export default function Indicators(response: IOverallItem): JSX.Element {
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>매출</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{response.cvr}</Value>
+            <Value p={2}>{sumConvValue}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
