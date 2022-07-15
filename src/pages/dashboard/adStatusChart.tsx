@@ -7,7 +7,7 @@ import ApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
 import { IOverall, IOverallItems, IOverallItem } from '../../types/overall';
 
-const selectItems = [
+const selectOptions = [
   'imp',
   'click',
   'conv',
@@ -32,43 +32,43 @@ export default function adStatusChart({ items }: IOverall) {
   const [selectId1, setSelectId1] = React.useState('roas');
   const [selectId2, setSelectId2] = React.useState('click');
 
-  const list: IOverallItems = items;
+  const overallItems: IOverallItems = items;
 
-  const dateCategories = list.map((item: IOverallItem): string => item.date);
+  const dateCategories = overallItems.map((overallItem: IOverallItem): string => overallItem.date);
 
   const getSeries = (select: string): number[] => {
     let series: number[] = [];
 
     switch (select) {
       case 'click':
-        series = items.map((item) => item.click);
+        series = overallItems.map((overallItem) => overallItem.click);
         break;
       case 'imp':
-        series = items.map((item) => item.imp);
+        series = overallItems.map((overallItem) => overallItem.imp);
         break;
       case 'cost':
-        series = items.map((item) => item.cost);
+        series = overallItems.map((overallItem) => overallItem.cost);
         break;
       case 'conv':
-        series = items.map((item) => item.conv);
+        series = overallItems.map((overallItem) => overallItem.conv);
         break;
       case 'convValue':
-        series = items.map((item) => item.convValue);
+        series = overallItems.map((overallItem) => overallItem.convValue);
         break;
       case 'ctr':
-        series = items.map((item) => item.ctr);
+        series = overallItems.map((overallItem) => overallItem.ctr);
         break;
       case 'cvr':
-        series = items.map((item) => item.cvr);
+        series = overallItems.map((overallItem) => overallItem.cvr);
         break;
       case 'cpc':
-        series = items.map((item) => item.cpc);
+        series = overallItems.map((overallItem) => overallItem.cpc);
         break;
       case 'cpa':
-        series = items.map((item) => item.cpa);
+        series = overallItems.map((overallItem) => overallItem.cpa);
         break;
       case 'roas':
-        series = items.map((item) => item.roas);
+        series = overallItems.map((overallItem) => overallItem.roas);
         break;
     }
     return series;
@@ -126,10 +126,10 @@ export default function adStatusChart({ items }: IOverall) {
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
           >
-            {selectItems &&
-              selectItems.map((selectItem) => (
-                <MenuItem key={selectItem} value={selectItem}>
-                  {selectItem}
+            {selectOptions &&
+              selectOptions.map((selectOption) => (
+                <MenuItem key={selectOption} value={selectOption}>
+                  {selectOption}
                 </MenuItem>
               ))}
           </Select>
@@ -142,10 +142,10 @@ export default function adStatusChart({ items }: IOverall) {
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
           >
-            {selectItems &&
-              selectItems.map((selectItem) => (
-                <MenuItem key={selectItem} value={selectItem}>
-                  {selectItem}
+            {selectOptions &&
+              selectOptions.map((selectOption) => (
+                <MenuItem key={selectOption} value={selectOption}>
+                  {selectOption}
                 </MenuItem>
               ))}
           </Select>
