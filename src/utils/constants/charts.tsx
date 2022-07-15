@@ -22,6 +22,14 @@ const platformBarOptions: ApexOptions = {
   xaxis: {
     categories: ['광고비', '매출', '노출수', '클릭수', '전환수'],
   },
+  yaxis: {
+    labels: {
+      formatter: (value: number) => {
+        const formatted = `${Number(value.toFixed(0))}%`;
+        return formatted;
+      },
+    },
+  },
   fill: {
     opacity: 1,
   },
