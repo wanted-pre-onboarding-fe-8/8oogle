@@ -4,8 +4,10 @@ const overall = require('./overall');
 const platform = require('./platform');
 const campaign = require('./campaign');
 
-module.exports = () => ({
-  platform,
-  overall,
-  campaign,
-});
+const combinedRoutes = {
+  platform: platform.platform.items,
+  overall: overall.overall.items,
+  campaign: campaign.campaign.items,
+};
+
+module.exports = () => combinedRoutes;
