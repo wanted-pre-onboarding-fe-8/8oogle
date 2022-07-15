@@ -14,10 +14,6 @@ interface IIntergratedAd {
   date: string;
   selectItems: string[];
 }
-interface IoverallData {
-  data: any;
-  index: number;
-}
 
 function IntergratedAd({ date, selectItems }: IIntergratedAd): JSX.Element {
   const [dateState, setDateState] = useState<string[]>();
