@@ -70,6 +70,14 @@ export default function adStatusChart({ items }: any) {
     xaxis: {
       categories: dateCategories,
     },
+    yaxis: {
+      labels: {
+        formatter: function (value) {
+          const val: string = value.toLocaleString();
+          return val;
+        },
+      },
+    },
     legend: {
       show: false,
     },
