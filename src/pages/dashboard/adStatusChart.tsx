@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import ApexChart from 'react-apexcharts';
 import { ApexOptions } from 'apexcharts';
-import { IOverall, IOverallItems, IOverallItem } from '../../types/overall';
+import { IOverallItems, IOverallItem } from '../../types/overall';
 
 const selectOptions = [
   'imp',
@@ -20,7 +20,7 @@ const selectOptions = [
   'roas',
 ];
 
-export default function adStatusChart({ items }: IOverall) {
+export default function adStatusChart({ items }: any) {
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
       setSelectId1(event.target.value as string);
@@ -36,41 +36,9 @@ export default function adStatusChart({ items }: IOverall) {
 
   const dateCategories = overallItems.map((overallItem: IOverallItem): string => overallItem.date);
 
-  const getSeries = (select: string): number[] => {
-    let series: number[] = [];
-
-    switch (select) {
-      case 'click':
-        series = overallItems.map((overallItem) => overallItem.click);
-        break;
-      case 'imp':
-        series = overallItems.map((overallItem) => overallItem.imp);
-        break;
-      case 'cost':
-        series = overallItems.map((overallItem) => overallItem.cost);
-        break;
-      case 'conv':
-        series = overallItems.map((overallItem) => overallItem.conv);
-        break;
-      case 'convValue':
-        series = overallItems.map((overallItem) => overallItem.convValue);
-        break;
-      case 'ctr':
-        series = overallItems.map((overallItem) => overallItem.ctr);
-        break;
-      case 'cvr':
-        series = overallItems.map((overallItem) => overallItem.cvr);
-        break;
-      case 'cpc':
-        series = overallItems.map((overallItem) => overallItem.cpc);
-        break;
-      case 'cpa':
-        series = overallItems.map((overallItem) => overallItem.cpa);
-        break;
-      case 'roas':
-        series = overallItems.map((overallItem) => overallItem.roas);
-        break;
-    }
+  const getSeries = (select: string): any => {
+    let series: number[] | string[] = [];
+    series = overallItems.map((overallItem) => overallItem[select]);
     return series;
   };
 
