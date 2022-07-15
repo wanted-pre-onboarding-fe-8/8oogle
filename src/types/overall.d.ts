@@ -1,4 +1,5 @@
 export interface IOverallItem {
+  [key: string]: string;
   imp: number;
   click: number;
   cost: number;
