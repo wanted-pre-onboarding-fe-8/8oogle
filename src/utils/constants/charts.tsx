@@ -25,11 +25,29 @@ const PLATFORM_CHART_OPTIONS: ApexOptions = {
     },
   },
   tooltip: {
-    y: {
-      formatter: (value: number) => {
-        const formatted = `${value.toFixed(0)}`;
-        return formatted;
-      },
+    custom: function ({ series, seriesIndex, dataPointIndex }) {
+      const indicators = ['cost', 'sales', 'impression', 'click', 'conversion'];
+      const target = indicators[dataPointIndex];
+
+      const moneyFormat = () => {
+        const money = Number(series[seriesIndex][dataPointIndex].toFixed(0)).toLocaleString();
+        return '<div class="arrow_box">' + '<span>' + money + '원' + '</span>' + '</div>';
+      };
+
+      const countFormat = () => {
+        const count = Number(series[seriesIndex][dataPointIndex].toFixed(0)).toLocaleString();
+        return '<div class="arrow_box">' + '<span>' + count + '건' + '</span>' + '</div>';
+      };
+
+      const formatMapper: { [index: string]: () => string } = {
+        cost: moneyFormat,
+        sales: moneyFormat,
+        impression: countFormat,
+        click: countFormat,
+        conversion: countFormat,
+      };
+
+      return formatMapper[target]();
     },
   },
   legend: {
