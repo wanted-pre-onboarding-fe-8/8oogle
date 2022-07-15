@@ -6,11 +6,12 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
   return series;
 
   function initPlatformMap() {
+    // 광고비, 매출, 노출수, 클릭수, 전환수, 전체건수 항목으로 초기화
     const platformMap = new Map<string, number[]>([
-      ['google', Array(5).fill(0)],
-      ['naver', Array(5).fill(0)],
-      ['facebook', Array(5).fill(0)],
-      ['kakao', Array(5).fill(0)],
+      ['google', Array(6).fill(0)],
+      ['naver', Array(6).fill(0)],
+      ['facebook', Array(6).fill(0)],
+      ['kakao', Array(6).fill(0)],
     ]);
 
     return platformMap;
@@ -20,13 +21,14 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
       const indicators = platformMap.get(platform.channel);
 
       if (indicators) {
-        const [cost, sales, impression, click, conversion] = indicators;
+        const [cost, sales, impression, click, conversion, count] = indicators;
 
         const newCost = platform.cost + cost;
         const newSales = platform.roas * platform.cost + sales;
         const newImpression = platform.imp + impression;
         const newClick = platform.click + click;
         const newConversion = platform.cvr * platform.imp + conversion;
+        const newCount = count + 1;
 
         platformMap.set(platform.channel, [
           newCost,
@@ -34,14 +36,22 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
           newImpression,
           newClick,
           newConversion,
+          newCount,
         ]);
       }
     });
 
     platformMap.forEach(
       (indicators: number[], platformName: string, self: Map<string, number[]>) => {
-        const average = indicators.map((indicator) => indicator / platforms.length);
-        self.set(platformName, average);
+        const averaged = indicators.map((indicator, index, self) => {
+          const count = self[self.length - 1];
+
+          const averagedIndicator = indicator / count;
+          return averagedIndicator;
+        });
+
+        const countRemoved = averaged.slice(0, 5);
+        self.set(platformName, countRemoved);
       },
     );
 
@@ -68,6 +78,9 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
     ];
 
     return series;
+  }
+  function isTheLastElement(index: number, array: number[]) {
+    return index === array.length - 1;
   }
 };
 
