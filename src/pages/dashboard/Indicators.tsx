@@ -29,9 +29,6 @@ export default function Indicators({
   const [ctr, setCtr] = useState<any>([]);
   const [cpc, setCvc] = useState<any>([]);
 
-  useEffect(() => {
-    console.log('받은 데이터는 여기에');
-  });
   return (
     <Box sx={{ p: 4 }}>
       <CardWrapper container spacing={0}>

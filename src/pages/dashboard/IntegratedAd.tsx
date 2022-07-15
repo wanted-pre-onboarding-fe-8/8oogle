@@ -26,7 +26,7 @@ function IntergratedAd({ date, selectItems }: IIntergratedAd): JSX.Element {
     const sperateDATE = date.split(' ~ ');
     return sperateDATE;
   }
-  const [overall, platform] = getDashboard('2022-02-01', '2022-02-06');
+  const [overall] = getDashboard('2022-02-01', '2022-02-06');
   const roasList: any[] = [];
   const costList: any[] = [];
   const impList: any[] = [];
@@ -45,7 +45,6 @@ function IntergratedAd({ date, selectItems }: IIntergratedAd): JSX.Element {
 
   useEffect(() => {
     spliteDate(date);
-    console.log('여기야', spliteDate(date)[0]);
   }, [date]);
 
   return (
