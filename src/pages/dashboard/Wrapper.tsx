@@ -1,7 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
 import { getDashboard } from '../../queries/queryRequest';
-import { IOverallItem } from '../../types/overall';
-import { IPlatformItem } from '../../types/platform';
+import AdStatusChart from './adStatusChart';
+import PlatformChart from './PlatformChart';
 
 interface iWrapper {
   startDate: string;
@@ -12,17 +13,14 @@ function Wrapper({ startDate, endDate }: iWrapper) {
   const [{ data: overall }, { data: platform }] = getDashboard(startDate, endDate);
 
   return (
-    <>
-      {overall.map((overallItem: IOverallItem) => (
-        <div key={overallItem.date}>{overallItem.date}</div>
-      ))}
-      {platform.map((platformItem: IPlatformItem) => (
-        <div
-          key={`${platformItem.date}${platformItem.channel}`}
-        >{`${platformItem.date}${platformItem.channel}`}</div>
-      ))}
-    </>
+    <Box>
+      <PlatformChart platforms={platform} />
+    </Box>
   );
 }
 
 export default Wrapper;
+
+const Box = styled.div`
+  width: 80%;
+`;
