@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 // interface CardProps {
 //   campaignItem: ICampaignItem;
@@ -34,6 +35,8 @@ function Card() {
       roas: 433,
     },
   };
+  const date = new Date(campaignItem.startDate);
+
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -49,27 +52,31 @@ function Card() {
             <TableBody>
               <Row style={{ borderTop: '1px solid rgba(224, 224, 224, 1)' }}>
                 <TableCell>상태</TableCell>
-                <TableCell>{campaignItem.status}</TableCell>
+                <TableCell>{campaignItem.status === 'active' ? '진행중' : '종료'}</TableCell>
               </Row>
               <Row>
                 <TableCell>광고 생성일</TableCell>
-                <TableCell>{campaignItem.startDate}</TableCell>
+                <TableCell>{format(date, 'yyyy-MM-dd')}</TableCell>
               </Row>
               <Row>
                 <TableCell>일 희망 예산</TableCell>
-                <TableCell>{campaignItem.budget}</TableCell>
+                <TableCell>{campaignItem.budget / 10000}만원</TableCell>
               </Row>
               <Row>
                 <TableCell>광고 수익률</TableCell>
-                <TableCell>{campaignItem.report.roas}</TableCell>
+                <TableCell>{campaignItem.report.roas}%</TableCell>
               </Row>
               <Row>
                 <TableCell>매출</TableCell>
-                <TableCell>{campaignItem.report.convValue}</TableCell>
+                <TableCell>
+                  {Math.floor(campaignItem.report.convValue / 10000).toLocaleString()}만원
+                </TableCell>
               </Row>
               <Row>
                 <TableCell>광고 비용</TableCell>
-                <TableCell>{campaignItem.report.cost}</TableCell>
+                <TableCell>
+                  {Math.floor(campaignItem.report.cost / 10000).toLocaleString()}만원
+                </TableCell>
               </Row>
             </TableBody>
           </Table>
