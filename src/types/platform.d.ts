@@ -12,6 +12,8 @@ export interface IPlatformItem {
   roas: number;
 }
 
+export type KeyOfIPlatformItem = keyof IPlatformItem;
+
 export type IPlatformItems = IPlatformItem[];
 
 export interface IPlatform {
