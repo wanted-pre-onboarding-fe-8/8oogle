@@ -79,9 +79,6 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
 
     return series;
   }
-  function isTheLastElement(index: number, array: number[]) {
-    return index === array.length - 1;
-  }
 };
 
 export { createPlatformSeries };
