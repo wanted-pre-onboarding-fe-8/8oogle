@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
 } from '@mui/material';
+import styled from 'styled-components';
 import { IPlatformItem, IPlatformItems } from '../../types/platform';
 
 type reducerType = Omit<IPlatformItem, 'date'>;
@@ -133,9 +134,9 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
     <div style={{ width: '100%' }}>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
-          <TableHead>
+          <STableHead>
             <TableRow>
-              <TableCell>채널</TableCell>
+              <TableCell></TableCell>
               <TableCell align='right'>IMP</TableCell>
               <TableCell align='right'>클릭수</TableCell>
               <TableCell align='right'>전환횟수</TableCell>
@@ -145,13 +146,10 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
               <TableCell align='right'>전환율</TableCell>
               <TableCell align='right'>ROAS</TableCell>
             </TableRow>
-          </TableHead>
-          <TableBody>
+          </STableHead>
+          <STableBody>
             {rows.map((row) => (
-              <TableRow
-                key={row.channel}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
+              <TableRow key={row.channel}>
                 <TableCell component='th' scope='row'>
                   {row.channel}
                 </TableCell>
@@ -165,12 +163,26 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
                 <TableCell align='right'>{Math.ceil(row.roas).toLocaleString()}</TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </STableBody>
         </Table>
       </TableContainer>
     </div>
   );
 }
+
+const STableHead = styled(TableHead)`
+  & th,
+  & td {
+    color: #948b8b;
+  }
+`;
+
+const STableBody = styled(TableBody)`
+  & > tr:nth-child(5) > th,
+  & > tr:nth-child(5) > td {
+    color: #007bff;
+  }
+`;
 
 const dummyData = [
   {
