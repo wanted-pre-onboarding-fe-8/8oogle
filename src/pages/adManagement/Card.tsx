@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { ICampaignItem } from '../../types/campaign';
 import styled from 'styled-components';
 import {
@@ -12,6 +12,9 @@ import {
   TableCell,
   TableContainer,
   TableRow,
+  Popover,
+  ButtonGroup,
+  Typography,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -35,12 +38,22 @@ function Card() {
       roas: 433,
     },
   };
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const date = new Date(campaignItem.startDate);
+  const open = Boolean(anchorEl);
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
+  const handleModifyClick = () => {
     navigate(`/ad/edit/${campaignItem.id}`, { state: campaignItem });
+  };
+
+  const handleCloseClick = (event: MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
   };
 
   return (
@@ -83,12 +96,35 @@ function Card() {
         </TableContainer>
       </CardContent>
       <ButtonWrapper sx={{ p: 0, pb: 2 }}>
-        <Button size='small' variant='outlined' color='inherit' onClick={handleClick}>
+        <Button size='small' variant='outlined' color='inherit' onClick={handleModifyClick}>
           수정하기
         </Button>
-        <Button size='small' variant='outlined' color='warning'>
+        <Button size='small' variant='outlined' color='warning' onClick={handleCloseClick}>
           삭제하기
         </Button>
+        <Popover
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handlePopoverClose}
+        >
+          <Typography sx={{ p: 2 }}>광고를 삭제 하시겠습니까?</Typography>
+          <ButtonWrapper>
+            <Button size='small' variant='outlined' color='warning'>
+              삭제
+            </Button>
+            <Button size='small' variant='outlined' color='inherit'>
+              취소
+            </Button>
+          </ButtonWrapper>
+        </Popover>
       </ButtonWrapper>
     </BasicCard>
   );
