@@ -29,12 +29,14 @@ const platformBarOptions: ApexOptions = {
         return formatted;
       },
     },
+    tooltip: {},
   },
   fill: {
     opacity: 1,
   },
   legend: {
     position: 'bottom',
+    horizontalAlign: 'right',
     offsetX: 0,
     offsetY: 0,
   },
