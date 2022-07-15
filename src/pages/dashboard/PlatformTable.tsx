@@ -13,121 +13,56 @@ import { IPlatformItem, IPlatformItems } from '../../types/platform';
 
 type reducerType = Omit<IPlatformItem, 'date'>;
 type KeyOfIPlatformItem = keyof IPlatformItem;
+type platforms = 'google' | 'kakao' | 'naver' | 'facebook';
 
-const initReducer: reducerType[] = [
-  {
-    channel: 'google',
-    imp: 0,
-    click: 0,
-    cost: 0,
-    convValue: 0,
-    ctr: 0,
-    cvr: 0,
-    cpc: 0,
-    cpa: 0,
-    roas: 0,
-  },
-  {
-    channel: 'kakao',
-    imp: 0,
-    click: 0,
-    cost: 0,
-    convValue: 0,
-    ctr: 0,
-    cvr: 0,
-    cpc: 0,
-    cpa: 0,
-    roas: 0,
-  },
-  {
-    channel: 'naver',
-    imp: 0,
-    click: 0,
-    cost: 0,
-    convValue: 0,
-    ctr: 0,
-    cvr: 0,
-    cpc: 0,
-    cpa: 0,
-    roas: 0,
-  },
-  {
-    channel: 'facebook',
-    imp: 0,
-    click: 0,
-    cost: 0,
-    convValue: 0,
-    ctr: 0,
-    cvr: 0,
-    cpc: 0,
-    cpa: 0,
-    roas: 0,
-  },
-  {
-    channel: 'sum',
-    imp: 0,
-    click: 0,
-    cost: 0,
-    convValue: 0,
-    ctr: 0,
-    cvr: 0,
-    cpc: 0,
-    cpa: 0,
-    roas: 0,
-  },
-];
+const initialValue: reducerType = {
+  channel: '',
+  imp: 0,
+  click: 0,
+  cost: 0,
+  convValue: 0,
+  ctr: 0,
+  cvr: 0,
+  cpc: 0,
+  cpa: 0,
+  roas: 0,
+};
+
+const initReducer: { [key in platforms]: reducerType } = {
+  google: { ...initialValue, channel: 'google' },
+  kakao: { ...initialValue, channel: 'kakao' },
+  naver: { ...initialValue, channel: 'naver' },
+  facebook: { ...initialValue, channel: 'facebook' },
+};
 
 // data는 임시 props. data props로 platform 데이터를 받는 거 가정.
 export default function PlatformTable({ data = dummyData }: { data?: IPlatformItems }) {
   const [rows, setRows] = React.useState<reducerType[]>([]);
   React.useEffect(() => {
-    const newData = data.reduce((pre: reducerType[], cur: IPlatformItem) => {
-      if (cur.channel === 'google') {
+    const sumOfData: reducerType = { ...initialValue, channel: 'sum' };
+    const reducedData = data.reduce(
+      (storage: { [key in platforms]: reducerType }, cur: IPlatformItem) => {
+        const channel = cur.channel as platforms;
         for (const [key, value] of Object.entries(cur) as [
           key: KeyOfIPlatformItem,
           value: number,
         ][]) {
           if (key !== 'channel' && key !== 'date') {
-            pre[0][key] += value;
-            pre[4][key] += value;
+            storage[channel][key] += value;
+            sumOfData[key] += value;
           }
         }
-        return pre;
-      } else if (cur.channel === 'kakao') {
-        for (const [key, value] of Object.entries(cur) as [
-          key: KeyOfIPlatformItem,
-          value: number,
-        ][]) {
-          if (key !== 'channel' && key !== 'date') {
-            pre[1][key] += value;
-            pre[4][key] += value;
-          }
-        }
-        return pre;
-      } else if (cur.channel === 'naver') {
-        for (const [key, value] of Object.entries(cur) as [
-          key: KeyOfIPlatformItem,
-          value: number,
-        ][]) {
-          if (key !== 'channel' && key !== 'date') {
-            pre[2][key] += value;
-            pre[4][key] += value;
-          }
-        }
-      } else {
-        for (const [key, value] of Object.entries(cur) as [
-          key: KeyOfIPlatformItem,
-          value: number,
-        ][]) {
-          if (key !== 'channel' && key !== 'date') {
-            pre[3][key] += value;
-            pre[4][key] += value;
-          }
-        }
-      }
-      return pre;
-    }, initReducer);
-    setRows(newData);
+        return storage;
+      },
+      initReducer,
+    );
+
+    // 합치기
+    const newRows: reducerType[] = [];
+    for (const key of Object.keys(reducedData) as platforms[]) newRows.push(reducedData[key]);
+    newRows.push(sumOfData);
+
+    setRows(newRows);
   }, []);
 
   return (
