@@ -35,7 +35,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>Roas</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumRoasList}</Value>
+            <Value p={2}>{sumRoasList.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -46,7 +46,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>광고비</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumCostList}</Value>
+            <Value p={2}>{sumCostList.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -57,7 +57,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>노출수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumImpList}</Value>
+            <Value p={2}>{sumImpList.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -68,7 +68,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>클릭수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumClickList}</Value>
+            <Value p={2}>{sumClickList.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -79,7 +79,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>전환수</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumCvrList}</Value>
+            <Value p={2}>{sumCvrList.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
@@ -90,7 +90,7 @@ export default function Indicators({
         <ContentWraper item xs={2} sm={4}>
           <Title p={2}>매출</Title>
           <Content item xs={6} sm={6}>
-            <Value p={2}>{sumConvValue}</Value>
+            <Value p={2}>{sumConvValue.toFixed(2)}</Value>
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
