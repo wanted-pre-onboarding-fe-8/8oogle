@@ -1,6 +1,6 @@
 import { ApexOptions } from 'apexcharts';
 
-const platformBarOptions: ApexOptions = {
+const PLATFORM_CHART_OPTIONS: ApexOptions = {
   chart: {
     type: 'bar',
     height: 350,
@@ -50,4 +50,4 @@ const platformBarOptions: ApexOptions = {
   ],
 };
 
-export { platformBarOptions };
+export { PLATFORM_CHART_OPTIONS };
