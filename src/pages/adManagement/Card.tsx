@@ -19,25 +19,12 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
-// interface CardProps {
-//   campaignItem: ICampaignItem;
-// }
+interface CardProps {
+  campaignItem: ICampaignItem;
+  onDelete: (id: number) => void;
+}
 
-function Card() {
-  const campaignItem: ICampaignItem = {
-    id: 1,
-    adType: 'web',
-    title: '광고 1234',
-    budget: 500000,
-    status: 'active',
-    startDate: '2020-10-19T00:00:00',
-    endDate: null,
-    report: {
-      cost: 267144117,
-      convValue: 1157942685,
-      roas: 433,
-    },
-  };
+function Card({ campaignItem, onDelete }: CardProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
   const date = new Date(campaignItem.startDate);
   const open = Boolean(anchorEl);
@@ -50,6 +37,10 @@ function Card() {
 
   const handleCloseClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleDeleteClick = () => {
+    onDelete(campaignItem.id);
   };
 
   const handlePopoverClose = () => {
@@ -117,10 +108,10 @@ function Card() {
         >
           <Typography sx={{ p: 2 }}>광고를 삭제 하시겠습니까?</Typography>
           <ButtonWrapper>
-            <Button size='small' variant='outlined' color='warning'>
+            <Button size='small' variant='outlined' color='warning' onClick={handleDeleteClick}>
               삭제
             </Button>
-            <Button size='small' variant='outlined' color='inherit'>
+            <Button size='small' variant='outlined' color='inherit' onClick={handlePopoverClose}>
               취소
             </Button>
           </ButtonWrapper>
