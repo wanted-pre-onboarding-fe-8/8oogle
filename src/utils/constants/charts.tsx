@@ -12,18 +12,7 @@ const platformBarOptions: ApexOptions = {
       borderRadius: 10,
     },
   },
-  responsive: [
-    {
-      breakpoint: 480,
-      options: {
-        legend: {
-          position: 'bottom',
-          offsetX: -10,
-          offsetY: 0,
-        },
-      },
-    },
-  ],
+  colors: ['#E60023', '#0C9D58', '#4185F3', '#F4B500'],
   xaxis: {
     categories: ['광고비', '매출', '노출수', '클릭수', '전환수'],
   },
@@ -43,15 +32,22 @@ const platformBarOptions: ApexOptions = {
       },
     },
   },
-  fill: {
-    opacity: 1,
-  },
   legend: {
     position: 'bottom',
     horizontalAlign: 'right',
-    offsetX: 0,
-    offsetY: 0,
   },
+  responsive: [
+    {
+      breakpoint: 480,
+      options: {
+        legend: {
+          position: 'bottom',
+          offsetX: -10,
+          offsetY: 0,
+        },
+      },
+    },
+  ],
 };
 
 export { platformBarOptions };
