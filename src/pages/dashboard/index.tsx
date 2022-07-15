@@ -4,6 +4,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
 import Loader from './Loader';
+import IntergratedAd from './IntegratedAd';
 
 const FIRST_DATE = new Date('2022-02-01');
 const LAST_DATE = new Date('2022-04-20');
@@ -33,6 +34,7 @@ function Dashboard() {
       <Suspense fallback={<Loader />}>
         <Wrapper startDate={splitRangeDate(date)[0]} endDate={splitRangeDate(date)[1]} />
       </Suspense>
+      <IntergratedAd date={date} selectItems={selectItems} />
     </>
   );
 }
