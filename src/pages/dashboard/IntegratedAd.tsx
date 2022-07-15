@@ -8,24 +8,27 @@ import Indicators from './Indicators';
 import { getDashboard } from '../../queries/queryRequest';
 
 interface IIntergratedAd {
-  date: string;
+  date: string | any;
   selectItems: string[];
 }
 
+const defautlDate = ['2022-02-01', '2022-04-20'];
 function IntergratedAd({ date, selectItems }: IIntergratedAd): JSX.Element {
-  const [dateState, setDateState] = useState<string[]>();
+  const [selectData, setSelectData] = useState<string[]>(defautlDate);
 
-  function spliteDate(date: string) {
-    const sperateDATE = date.split(' ~ ');
-    return sperateDATE;
+  function spliteDate(date: string): any | void | string[] {
+    const sperateDate = date.split(' ~ ');
+    return setSelectData(sperateDate);
   }
-  const [overall] = getDashboard('2022-02-01', '2022-02-06');
+
   const roasList: any[] = [];
   const costList: any[] = [];
   const impList: any[] = [];
   const clickList: any[] = [];
   const cvrList: any[] = [];
   const convValue: any[] = [];
+  console.log('여기 보자 ', selectData);
+  const [overall] = getDashboard(selectData[0], selectData[1]);
 
   overall.data.map((data: any) => {
     roasList.push(data['roas']);
@@ -35,9 +38,9 @@ function IntergratedAd({ date, selectItems }: IIntergratedAd): JSX.Element {
     cvrList.push(data['cvr']);
     convValue.push(data['convValue']);
   });
-
   useEffect(() => {
     spliteDate(date);
+    console.log(date);
   }, [date]);
 
   return (
