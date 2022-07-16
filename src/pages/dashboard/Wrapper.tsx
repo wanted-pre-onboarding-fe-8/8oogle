@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { getDashboard } from '../../queries/queryRequest';
-import AdStatusChart from './adStatusChart';
 import PlatformChart from './PlatformChart';
 
 interface iWrapper {
