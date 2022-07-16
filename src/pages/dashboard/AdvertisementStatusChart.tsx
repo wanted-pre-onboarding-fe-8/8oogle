@@ -21,11 +21,11 @@ const selectOptions = [
   'roas',
 ];
 
-interface IOverallChartProps {
-  items: IOverallItems;
-}
+// interface IOverallChartProps {
+//   items: IOverallItems;
+// }
 
-export default function adStatusChart({ overall }: any): JSX.Element {
+export default function AdvertisementStatusChart({ overall }: any): JSX.Element {
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
       setSelectId1(event.target.value as string);

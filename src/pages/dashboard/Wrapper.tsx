@@ -2,7 +2,7 @@ import React from 'react';
 import { getDashboard } from '../../queries/queryRequest';
 import { IOverallItem } from '../../types/overall';
 import { IPlatformItem } from '../../types/platform';
-import AdStatusChart from './adStatusChart';
+import AdvertisementStatusChart from './AdvertisementStatusChart';
 
 interface iWrapper {
   startDate: string;
@@ -22,7 +22,7 @@ function Wrapper({ startDate, endDate }: iWrapper) {
           key={`${platformItem.date}${platformItem.channel}`}
         >{`${platformItem.date}${platformItem.channel}`}</div>
       ))}
-      <AdStatusChart overall={overall} />
+      <AdvertisementStatusChart overall={overall} />
     </>
   );
 }
