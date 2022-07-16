@@ -1,4 +1,5 @@
 import { IPlatformItems, IPlatformItem } from '../../types/platform';
+import { IOverallItems } from '../../types/overall';
 
 const createPlatformSeries = (platforms: IPlatformItems) => {
   const map = processIndicatorsToMap(platforms, initPlatformMap());
@@ -81,4 +82,16 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
   }
 };
 
-export { createPlatformSeries };
+const createAdvertismentSeries = (
+  overallItems: IOverallItems,
+  select1: string,
+  select2: string,
+) => {
+  const series1 = { name: select1, data: overallItems.map((overallItem) => overallItem[select1]) };
+  const series2 = { name: select2, data: overallItems.map((overallItem) => overallItem[select2]) };
+
+  const series = [{ ...series1 }, { ...series2 }];
+  return series;
+};
+
+export { createPlatformSeries, createAdvertismentSeries };
