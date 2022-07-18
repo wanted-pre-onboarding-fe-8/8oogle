@@ -1,16 +1,28 @@
-import { ChangeEvent, useState } from 'react';
+import { SelectChangeEvent } from '@mui/material';
+import { ChangeEvent, SetStateAction, useState, Dispatch } from 'react';
 
-type DynamicObject<T> = T & { [key: string]: string | number };
+type ReturnTypes<T> = [
+  T,
+  Dispatch<SetStateAction<T>>,
+  (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent) => void,
+];
 
-function useInput<T>(initialValue: DynamicObject<T>) {
-  const [value, setValue] = useState(initialValue);
+function useInput<T>(initialValue: T): ReturnTypes<T> {
+  const [values, setValues] = useState<T>(initialValue);
 
-  const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
+  const onChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement> | SelectChangeEvent,
+  ): void => {
     e.preventDefault();
-    setValue({ ...initialValue, [e.currentTarget.name]: e.currentTarget.value });
+    const key = e.target.name as keyof T;
+    const value: string | number = e.target.value;
+    setValues({
+      ...initialValue,
+      [key]: value,
+    });
   };
 
-  return [value, onChange];
+  return [values, setValues, onChange];
 }
 
 export default useInput;
