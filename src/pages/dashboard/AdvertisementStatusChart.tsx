@@ -25,13 +25,6 @@ interface PlatformChartProps {
   items: IOverallItems;
 }
 
-type SeriesList = ISeries[];
-
-interface ISeries {
-  name?: string;
-  data?: number[] | string[];
-}
-
 export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
   const [series, setSeries] = React.useState<ApexAxisChartSeries>([{ data: [], name: '' }]);
 
@@ -45,7 +38,11 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
 
   const [selectId1, setSelectId1] = React.useState('roas');
   const [selectId2, setSelectId2] = React.useState('click');
-  const dateCategories = items.map((overallItem: IOverallItem): string => overallItem.date);
+
+  const dateCategories = items.map(
+    (overallItem: IOverallItem): string =>
+      overallItem.date.substr(5, 2) + '월 ' + overallItem.date.substr(8, 2) + '일',
+  );
 
   const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
     chart: {
