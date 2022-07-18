@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import ApexChart from 'react-apexcharts';
+import Chart from 'react-apexcharts';
+import { createAdvertismentSeries } from '../../utils/helpers/charts';
 import { ApexOptions } from 'apexcharts';
 import { IOverallItems, IOverallItem } from '../../types/overall';
 
@@ -20,7 +21,13 @@ const selectOptions = [
   'roas',
 ];
 
-export default function adStatusChart({ items }: any) {
+interface PlatformChartProps {
+  items: IOverallItems;
+}
+
+export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
+  const [series, setSeries] = React.useState<ApexAxisChartSeries>([{ data: [], name: '' }]);
+
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
       setSelectId1(event.target.value as string);
@@ -32,19 +39,13 @@ export default function adStatusChart({ items }: any) {
   const [selectId1, setSelectId1] = React.useState('roas');
   const [selectId2, setSelectId2] = React.useState('click');
 
-  const overallItems: IOverallItems = items;
+  const dateCategories = items.map(
+    (overallItem: IOverallItem): string =>
+      overallItem.date.substr(5, 2) + '월 ' + overallItem.date.substr(8, 2) + '일',
+  );
 
-  const dateCategories = overallItems.map((overallItem: IOverallItem): string => overallItem.date);
-
-  const getSeries = (select: string): any => {
-    let series: number[] | string[] = [];
-    series = overallItems.map((overallItem) => overallItem[select]);
-    return series;
-  };
-
-  const lineOptions: ApexOptions = {
+  const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
     chart: {
-      type: 'line',
       zoom: {
         enabled: false,
       },
@@ -83,13 +84,10 @@ export default function adStatusChart({ items }: any) {
     },
   };
 
-  const [series1, setSeries1] = React.useState<number[]>([]);
-  const [series2, setSeries2] = React.useState<number[]>([]);
-
   useEffect(() => {
-    setSeries1(getSeries(selectId1));
-    setSeries2(getSeries(selectId2));
-  }, [selectId1, selectId2]);
+    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
+    setSeries(getSeries);
+  }, [items, selectId1, selectId2]);
 
   return (
     <>
@@ -127,22 +125,7 @@ export default function adStatusChart({ items }: any) {
           </Select>
         </FormControl>
       </GraphSelects>
-      <ApexChart
-        type='line'
-        height={220}
-        width={750}
-        series={[
-          {
-            name: selectId1,
-            data: series1,
-          },
-          {
-            name: selectId2,
-            data: series2,
-          },
-        ]}
-        options={lineOptions}
-      />
+      <Chart options={ADVERTISEMENT_CHART_OPTIONS} type='line' series={series} height={350} />
     </>
   );
 }
