@@ -1,5 +1,5 @@
 import React, { MouseEvent, useState } from 'react';
-import { ICampaignItem } from '../../types/campaign';
+import { ICampaignItem } from '../types/campaign';
 import styled from 'styled-components';
 import {
   Button,
