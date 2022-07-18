@@ -17,10 +17,6 @@ export function getDashboard(startDate: string, endDate: string) {
   return [overall, platform];
 }
 
-export function getCampaign() {
-  return useQuery(CAMPAIGN, () => get(campaignService));
-}
-
 export function getCampaignByStatus(status: typeStatus) {
   const query = status === STATUS_ALL ? '' : `?status=${status}`;
 
