@@ -12,12 +12,13 @@ export default function Indicators({
   cvrList,
   convValue,
 }: any): JSX.Element {
-  const sumRoas = roasList.reduce((a: number, b: number): number => a + b, 0);
-  const sumCost = costList.reduce((a: number, b: number): number => a + b, 0);
-  const sumImp = impList.reduce((a: number, b: number): number => a + b, 0);
-  const sumClick = clickList.reduce((a: number, b: number): number => a + b, 0);
-  const sumCvr = cvrList.reduce((a: number, b: number): number => a + b, 0);
-  const sumConvValue = convValue.reduce((a: number, b: number): number => a + b, 0);
+  const INITIAL_VALUE = 0;
+  const sumRoas = roasList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumCost = costList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumImp = impList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumClick = clickList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumCvr = cvrList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumConvValue = convValue.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
 
   return (
     <Box sx={{ p: 4 }}>
