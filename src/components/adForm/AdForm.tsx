@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -9,14 +9,12 @@ import {
   Input,
   MenuItem,
   Select,
-  InputAdornment,
-  FormHelperText,
 } from '@mui/material';
-import { ICampaignItemBase } from '../types/campaign';
-import { CAMPAIGN_CONSTANTS } from '../utils/constants/data';
-import { currencyFormatter } from '../utils/helpers/formatters';
 import format from 'date-fns/format';
-import useInput from '../hooks/useInput';
+import { ICampaignItemBase } from '../../types/campaign';
+import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
+import useInput from '../../hooks/useInput';
+import CurrencyField from './CurrencyField';
 
 interface CardProps {
   campaignItem?: ICampaignItemBase;
@@ -168,27 +166,6 @@ const GridRow = ({ label, content }: { label: string; content: JSX.Element | str
         {content}
       </Grid>
     </>
-  );
-};
-
-const CurrencyField = ({ setCurrencyValue }: { setCurrencyValue: (value: number) => void }) => {
-  const [money, setMoney] = useState('0');
-  return (
-    <FormControl>
-      <Input
-        endAdornment={<InputAdornment position='end'>원</InputAdornment>}
-        type='string'
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          const currentValue = e.currentTarget.value;
-          const removeCharacter = currentValue.replace(/[^0-9,]/g, '').replaceAll(',', '');
-          const numberOfValue = Number(removeCharacter);
-          setCurrencyValue(numberOfValue);
-          setMoney(numberOfValue.toLocaleString());
-        }}
-        value={money}
-      />
-      <FormHelperText>{currencyFormatter(Number(money.replaceAll(',', '')))}</FormHelperText>
-    </FormControl>
   );
 };
 
