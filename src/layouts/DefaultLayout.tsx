@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import HeaderBar from './HeaderBar';
-import SideBar from './SideBar';
+import HeaderBar from '../components/HeaderBar';
+import SideBar from '../components/SideBar';
 
 function DefaultLayout() {
   return (
