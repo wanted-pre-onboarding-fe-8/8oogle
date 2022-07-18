@@ -21,11 +21,20 @@ const selectOptions = [
   'roas',
 ];
 
-// interface IOverallChartProps {
-//   items: IOverallItems;
-// }
+interface PlatformChartProps {
+  items: IOverallItems;
+}
 
-export default function AdvertisementStatusChart({ overall }: any): JSX.Element {
+type SeriesList = ISeries[];
+
+interface ISeries {
+  name?: string;
+  data?: number[] | string[];
+}
+
+export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
+  const [series, setSeries] = React.useState<any>([{ data: [], name: '' }]);
+
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
       setSelectId1(event.target.value as string);
@@ -36,14 +45,10 @@ export default function AdvertisementStatusChart({ overall }: any): JSX.Element 
 
   const [selectId1, setSelectId1] = React.useState('roas');
   const [selectId2, setSelectId2] = React.useState('click');
+  const dateCategories = items.map((overallItem: IOverallItem): string => overallItem.date);
 
-  const dateCategories = overall.map((overallItem: IOverallItem): string => overallItem.date);
-
-  const [series, setSeries] = React.useState([]);
   const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
     chart: {
-      type: 'line',
-      height: 350,
       zoom: {
         enabled: false,
       },
@@ -83,9 +88,9 @@ export default function AdvertisementStatusChart({ overall }: any): JSX.Element 
   };
 
   useEffect(() => {
-    const temp1: any = createAdvertismentSeries(overall, selectId1, selectId2);
-    setSeries(temp1);
-  }, [selectId1, selectId2]);
+    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
+    setSeries(getSeries);
+  }, [items, selectId1, selectId2]);
 
   return (
     <>
@@ -123,7 +128,7 @@ export default function AdvertisementStatusChart({ overall }: any): JSX.Element 
           </Select>
         </FormControl>
       </GraphSelects>
-      <Chart options={ADVERTISEMENT_CHART_OPTIONS} type='line' series={series} height={350} />;
+      <Chart options={ADVERTISEMENT_CHART_OPTIONS} type='line' series={series} height={350} />
     </>
   );
 }

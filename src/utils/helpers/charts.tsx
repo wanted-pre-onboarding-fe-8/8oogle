@@ -81,12 +81,18 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
     return series;
   }
 };
+type SeriesList = ISeries[];
+
+interface ISeries {
+  name: string;
+  data: number[] | string[];
+}
 
 const createAdvertismentSeries = (
   overallItems: IOverallItems,
   select1: string,
   select2: string,
-) => {
+): SeriesList => {
   const series1 = { name: select1, data: overallItems.map((overallItem) => overallItem[select1]) };
   const series2 = { name: select2, data: overallItems.map((overallItem) => overallItem[select2]) };
 
