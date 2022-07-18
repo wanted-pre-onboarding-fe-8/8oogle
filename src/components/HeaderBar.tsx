@@ -1,5 +1,4 @@
 import React from 'react';
-import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -15,9 +14,9 @@ function HeaderBar({ handleOpen }: HeaderBarProps) {
   return (
     <Container>
       <InnerContainer>
-        <IconButton onClick={() => handleOpen(true)}>
+        <HamburgerWrapper onClick={() => handleOpen(true)}>
           <MenuIcon sx={{ fontSize: '24px' }} />
-        </IconButton>
+        </HamburgerWrapper>
         <ProfileAndControls>
           <NotificationsNoneOutlinedIcon sx={{ fontSize: '24px' }} />
           <SettingsOutlinedIcon sx={{ fontSize: '24px' }} />
@@ -42,10 +41,17 @@ const InnerContainer = styled.nav`
   justify-content: flex-end;
   gap: 16px;
   padding: 16px 0;
+  padding-right: 32px;
   margin: 0 auto;
   @media screen and (max-width: 480px) {
     justify-content: space-between;
     padding: 4px 16px;
+  }
+`;
+const HamburgerWrapper = styled.section`
+  display: none;
+  @media screen and (max-width: 480px) {
+    display: block;
   }
 `;
 const ProfileAndControls = styled.section`
