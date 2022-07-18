@@ -12,7 +12,6 @@ interface IDataListType {
 }
 
 interface IIntergratedAdProps {
-  [x: string]: number | any;
   overall: IOverallItems;
 }
 
@@ -20,7 +19,7 @@ interface Idate {
   data: number[] | any | any[];
 }
 
-function IntergratedAd(overall: IIntergratedAdProps): JSX.Element {
+function IntergratedAd({ overall }: IIntergratedAdProps): JSX.Element {
   const roasList: IDataListType['ListType'] = [];
   const costList: IDataListType['ListType'] = [];
   const impList: IDataListType['ListType'] = [];
@@ -28,7 +27,7 @@ function IntergratedAd(overall: IIntergratedAdProps): JSX.Element {
   const cvrList: IDataListType['ListType'] = [];
   const convValueList: IDataListType['ListType'] = [];
 
-  const selectOverall = overall;
+  const selectOverall: IOverallItems = overall;
 
   selectOverall.forEach((data: IOverallItem) => {
     roasList.push(data.roas);
