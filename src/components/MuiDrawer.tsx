@@ -36,6 +36,7 @@ const Container = styled(Box)((width) => ({
   alignItems: 'center',
   gap: '24px',
   paddingTop: '48px',
+  width: `${width}px`,
 }));
 
 const StyledLink = styled(Link)`
