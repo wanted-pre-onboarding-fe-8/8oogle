@@ -1,4 +1,4 @@
-import React, { ChangeEvent, RefObject, useRef, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import {
   Button,
@@ -14,16 +14,126 @@ import {
 } from '@mui/material';
 import { ICampaignItemBase } from '../types/campaign';
 import { CAMPAIGN_CONSTANTS } from '../utils/constants/data';
+import { currencyFormatter } from '../utils/helpers/formatters';
+import format from 'date-fns/format';
+import useInput from '../hooks/useInput';
 
 interface CardProps {
   campaignItem?: ICampaignItemBase;
-  onDelete?: (id: number) => void;
+  onSubmit?: (value: ICampaignItemBase) => void;
+  onError?: () => void;
   title: JSX.Element;
 }
 
-function AdForm({ campaignItem = mockItem, title }: CardProps) {
-  // const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-  const dataRef = useRef<HTMLDivElement>(null);
+function AdForm({
+  campaignItem = mockItem,
+  title,
+  onSubmit = (value: ICampaignItemBase) => {
+    console.log('제출쓰', value);
+  },
+}: CardProps) {
+  const [values, setValues, onChange] = useInput<ICampaignItemBase>(campaignItem);
+
+  const Rows = [
+    {
+      label: '광고유형',
+      content: (
+        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+          <Select
+            labelId='demo-select-small'
+            id='demo-select-small'
+            name='adType'
+            value={values.adType}
+            onChange={onChange}
+          >
+            <MenuItem value='web'>웹광고</MenuItem>
+            <MenuItem value='mobile'>모바일광고</MenuItem>
+            <MenuItem value='paper'>지면광고</MenuItem>
+          </Select>
+        </FormControl>
+      ),
+    },
+    {
+      label: '광고이름',
+      content: <Input type='text' value={values.title} onChange={onChange} name='title' />,
+    },
+    {
+      label: '예산',
+      content: (
+        <CurrencyField
+          setCurrencyValue={(value: number) => {
+            setValues((pre) => ({ ...pre, budget: value }));
+          }}
+        />
+      ),
+    },
+    {
+      label: '광고시작일',
+      content: (
+        <Input
+          type='date'
+          name='startDate'
+          value={values.startDate ? format(new Date(values.startDate), 'yyyy-MM-dd') : ''}
+          onChange={onChange}
+        />
+      ),
+    },
+    {
+      label: '광고종료일',
+      content: (
+        <Input
+          name='endDate'
+          value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
+          onChange={onChange}
+          type='date'
+        />
+      ),
+    },
+    {
+      label: '광고비용',
+      content: (
+        <CurrencyField
+          setCurrencyValue={(value: number) => {
+            setValues((pre) => ({ ...pre, report: { ...pre.report, cost: value } }));
+          }}
+        />
+      ),
+    },
+    {
+      label: '전환횟수',
+      content: (
+        <Input
+          type='number'
+          name='convValue'
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setValues((pre) => ({
+              ...pre,
+              report: { ...pre.report, convValue: Number(e.target.value) },
+            }));
+          }}
+          value={values.report.convValue}
+          endAdornment='번'
+        />
+      ),
+    },
+    {
+      label: 'ROAS',
+      content: (
+        <Input
+          type='number'
+          name='roas'
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setValues((pre) => ({
+              ...pre,
+              report: { ...pre.report, roas: Number(e.target.value) },
+            }));
+          }}
+          value={values.report.roas}
+          endAdornment='번'
+        />
+      ),
+    },
+  ];
 
   return (
     <BasicCard variant='outlined' style={{ borderRadius: '12px' }}>
@@ -31,39 +141,13 @@ function AdForm({ campaignItem = mockItem, title }: CardProps) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          getInputValue(dataRef);
+          onSubmit(values);
         }}
       >
-        <Grid container spacing={2} justifyContent='center' alignItems={'center'} ref={dataRef}>
-          <GridRow
-            label='광고유형'
-            content={
-              <FormControl sx={{ m: 1, minWidth: 120 }} size='small' required>
-                <Select
-                  labelId='demo-select-small'
-                  id='demo-select-small'
-                  defaultValue={campaignItem.adType}
-                  className='value'
-                >
-                  <MenuItem value='web'>웹광고</MenuItem>
-                  <MenuItem value='mobile'>모바일광고</MenuItem>
-                  <MenuItem value='paper'>지면광고</MenuItem>
-                </Select>
-              </FormControl>
-            }
-          />
-          <GridRow
-            label='광고이름'
-            content={
-              <Input type='text' className='value' defaultValue={campaignItem.title} required />
-            }
-          />
-          <GridRow label='예산' content={<MoneyField />} />
-          <GridRow label='광고시작일' content={<Input type='date' required />} />
-          <GridRow label='광고종료일' content={<Input type='date' required />} />
-          <GridRow label='광고비용' content={<MoneyField />} />
-          <GridRow label='전환횟수' content={<Input type='number' endAdornment='번' required />} />
-          <GridRow label='ROAS' content={<Input type='number' endAdornment='%' required />} />
+        <Grid container spacing={2} justifyContent='center' alignItems={'center'}>
+          {Rows.map((row) => (
+            <GridRow key={row.label} label={row.label} content={row.content} />
+          ))}
         </Grid>
         <ButtonGroup variant='contained' sx={{ marginTop: 3, float: 'right' }}>
           <Button variant='outlined'>취소</Button>
@@ -87,69 +171,25 @@ const GridRow = ({ label, content }: { label: string; content: JSX.Element | str
   );
 };
 
-const MoneyField = () => {
-  const [money, setMoney] = useState<string>('0');
+const CurrencyField = ({ setCurrencyValue }: { setCurrencyValue: (value: number) => void }) => {
+  const [money, setMoney] = useState('0');
   return (
-    <FormControl required error>
+    <FormControl>
       <Input
         endAdornment={<InputAdornment position='end'>원</InputAdornment>}
         type='string'
-        id='money'
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           const currentValue = e.currentTarget.value;
           const removeCharacter = currentValue.replace(/[^0-9,]/g, '').replaceAll(',', '');
-          setMoney(Number(removeCharacter).toLocaleString());
+          const numberOfValue = Number(removeCharacter);
+          setCurrencyValue(numberOfValue);
+          setMoney(numberOfValue.toLocaleString());
         }}
         value={money}
-        required
       />
-      <FormHelperText id='money'>
-        ({moneyFormatter(Number(money?.replaceAll(',', '')))})
-      </FormHelperText>
+      <FormHelperText>{currencyFormatter(Number(money.replaceAll(',', '')))}</FormHelperText>
     </FormControl>
   );
-};
-
-function moneyFormatter(value: number) {
-  const result: number[] = [];
-  let unit = 1e12; // billion
-
-  while (unit > 1) {
-    const quotient = value / unit;
-    value %= unit;
-    result.push(Math.trunc(quotient));
-    unit /= 1000;
-  }
-  let realResult = '';
-  const hh = ['조', '억', '백만', '천'];
-  hh.forEach((h, idx) => {
-    if (idx == 3) {
-      if (result[idx] >= 10) {
-        realResult += `${Math.trunc(result[idx] / 10)}만`;
-        realResult += `${result[idx] % 10}천`;
-      }
-    } else {
-      if (result[idx]) {
-        realResult += `${result[idx]}${h}`;
-      }
-    }
-  });
-  realResult += `${value}원`;
-
-  return realResult;
-}
-
-const getInputValue = (ref: RefObject<HTMLDivElement>) => {
-  const inputElements = ref.current?.getElementsByTagName('input');
-  if (inputElements) {
-    const data = [...inputElements];
-    const result = data.map((dt) => {
-      console.log(dt.value, data.values());
-      return dt.value;
-    });
-    return result;
-  }
-  return [];
 };
 
 const BasicCard = styled(DefaultCard)`
