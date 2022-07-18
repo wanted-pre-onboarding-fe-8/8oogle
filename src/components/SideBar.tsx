@@ -30,6 +30,9 @@ const Container = styled.nav`
   flex-direction: column;
   align-items: center;
   gap: 24px;
+  @media screen and (max-width: 480px) {
+    display: none;
+  }
 `;
 
 const StyledLink = styled(Link)`
