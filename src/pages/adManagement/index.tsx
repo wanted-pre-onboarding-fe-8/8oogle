@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import Wrapper from './Wrapper';
 
 function AdManagement() {
-  return <div>AdManagement</div>;
+  return (
+    <>
+      <Suspense fallback={<div>로딩</div>}>
+        <Wrapper />
+      </Suspense>
+    </>
+  );
 }
 
 export default AdManagement;
