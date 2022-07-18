@@ -1,28 +1,19 @@
-export function moneyFormatter(value: number) {
-  const result: number[] = [];
-  let unit = 1e12; // billion
+import { A_TRILLION, A_BILLION, TEN_THOUSAND } from '../constants/currency';
 
-  while (unit > 1) {
-    const quotient = value / unit;
-    value %= unit;
-    result.push(Math.trunc(quotient));
-    unit /= 1000;
-  }
-  let realResult = '';
-  const hh = ['조', '억', '백만', '천'];
-  hh.forEach((h, idx) => {
-    if (idx == 3) {
-      if (result[idx] >= 10) {
-        realResult += `${Math.trunc(result[idx] / 10)}만`;
-        realResult += `${result[idx] % 10}천`;
-      }
-    } else {
-      if (result[idx]) {
-        realResult += `${result[idx]}${h}`;
-      }
+export function currencyFormatter(value: number) {
+  let formattedValue = '';
+  const unitOfCurrency = [A_TRILLION, A_BILLION, TEN_THOUSAND];
+  const koreanCurrency = ['조', '억', '만'];
+
+  unitOfCurrency.forEach((currency, idx) => {
+    if (value > currency) {
+      const quotient = Math.trunc(value / currency);
+      formattedValue += quotient + koreanCurrency[idx];
+      value %= currency;
     }
   });
-  realResult += `${value}원`;
 
-  return realResult;
+  formattedValue += value + '원';
+
+  return formattedValue;
 }
