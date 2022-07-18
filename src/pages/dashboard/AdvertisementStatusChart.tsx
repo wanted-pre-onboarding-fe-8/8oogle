@@ -33,7 +33,7 @@ interface ISeries {
 }
 
 export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
-  const [series, setSeries] = React.useState<any>([{ data: [], name: '' }]);
+  const [series, setSeries] = React.useState<ApexAxisChartSeries>([{ data: [], name: '' }]);
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
