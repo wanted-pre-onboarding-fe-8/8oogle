@@ -14,15 +14,15 @@ function Wrapper({ startDate, endDate }: iWrapper) {
 
   return (
     <>
-      {overall.map((overallItem: IOverallItem) => (
+      {/* {overall.map((overallItem: IOverallItem) => (
         <div key={overallItem.date}>{overallItem.date}</div>
       ))}
       {platform.map((platformItem: IPlatformItem) => (
         <div
           key={`${platformItem.date}${platformItem.channel}`}
         >{`${platformItem.date}${platformItem.channel}`}</div>
-      ))}
-      <AdvertisementStatusChart overall={overall} />
+      ))} */}
+      <AdvertisementStatusChart items={overall} />
     </>
   );
 }
