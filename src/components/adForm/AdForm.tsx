@@ -4,7 +4,6 @@ import {
   Button,
   ButtonGroup,
   Card as DefaultCard,
-  FormControl,
   Grid,
   Input,
   MenuItem,
@@ -31,29 +30,31 @@ function AdForm({
   },
 }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItemBase>(campaignItem);
-
+  const setNestedReportValue = (key: string, value: string | number) => {
+    setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
+  };
   const Rows = [
     {
       label: '광고유형',
       content: (
-        <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-          <Select
-            labelId='demo-select-small'
-            id='demo-select-small'
-            name='adType'
-            value={values.adType}
-            onChange={onChange}
-          >
-            <MenuItem value='web'>웹광고</MenuItem>
-            <MenuItem value='mobile'>모바일광고</MenuItem>
-            <MenuItem value='paper'>지면광고</MenuItem>
-          </Select>
-        </FormControl>
+        <Select name='adType' value={values.adType} onChange={onChange}>
+          <MenuItem value='web'>웹광고</MenuItem>
+          <MenuItem value='mobile'>모바일광고</MenuItem>
+          <MenuItem value='paper'>지면광고</MenuItem>
+        </Select>
       ),
     },
     {
       label: '광고이름',
-      content: <Input type='text' value={values.title} onChange={onChange} name='title' />,
+      content: (
+        <Input
+          type='text'
+          value={values.title}
+          onChange={onChange}
+          name='title'
+          error={!values.title}
+        />
+      ),
     },
     {
       label: '예산',
@@ -73,6 +74,7 @@ function AdForm({
           name='startDate'
           value={values.startDate ? format(new Date(values.startDate), 'yyyy-MM-dd') : ''}
           onChange={onChange}
+          error={!values.startDate}
         />
       ),
     },
@@ -90,11 +92,7 @@ function AdForm({
     {
       label: '광고비용',
       content: (
-        <CurrencyField
-          setCurrencyValue={(value: number) => {
-            setValues((pre) => ({ ...pre, report: { ...pre.report, cost: value } }));
-          }}
-        />
+        <CurrencyField setCurrencyValue={(value: number) => setNestedReportValue('cost', value)} />
       ),
     },
     {
@@ -103,14 +101,12 @@ function AdForm({
         <Input
           type='number'
           name='convValue'
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setValues((pre) => ({
-              ...pre,
-              report: { ...pre.report, convValue: Number(e.target.value) },
-            }));
-          }}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setNestedReportValue('convValue', Number(e.target.value))
+          }
           value={values.report.convValue}
           endAdornment='번'
+          error={!values.report.convValue}
         />
       ),
     },
@@ -120,12 +116,9 @@ function AdForm({
         <Input
           type='number'
           name='roas'
-          onChange={(e: ChangeEvent<HTMLInputElement>) => {
-            setValues((pre) => ({
-              ...pre,
-              report: { ...pre.report, roas: Number(e.target.value) },
-            }));
-          }}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setNestedReportValue('roas', Number(e.target.value))
+          }
           value={values.report.roas}
           endAdornment='번'
         />

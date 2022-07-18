@@ -17,6 +17,7 @@ const CurrencyField = ({ setCurrencyValue }: { setCurrencyValue: (value: number)
           setMoney(numberOfValue.toLocaleString());
         }}
         value={money}
+        error={!money}
       />
       <FormHelperText>{currencyFormatter(Number(money.replaceAll(',', '')))}</FormHelperText>
     </FormControl>
