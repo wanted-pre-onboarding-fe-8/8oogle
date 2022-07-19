@@ -1,30 +1,18 @@
 import React from 'react';
 import { getDashboard } from '../../queries/queryRequest';
-import { IOverallItem } from '../../types/overall';
-import { IPlatformItem } from '../../types/platform';
-import AdvertisementStatusChart from './AdvertisementStatusChart';
 
-interface iWrapper {
-  startDate: string;
-  endDate: string;
+interface IWrapper {
+  currStartDate: string;
+  currEndDate: string;
+  prevStartDate: string;
+  prevEndDate: string;
 }
 
-function Wrapper({ startDate, endDate }: iWrapper) {
-  const [{ data: overall }, { data: platform }] = getDashboard(startDate, endDate);
+function Wrapper({ prevStartDate, prevEndDate, currStartDate, currEndDate }: IWrapper) {
+  const [{ data: prevOverall }, { data: prevPlatform }] = getDashboard(prevStartDate, prevEndDate);
+  const [{ data: currOverall }, { data: currPlatform }] = getDashboard(currStartDate, currEndDate);
 
-  return (
-    <>
-      {/* {overall.map((overallItem: IOverallItem) => (
-        <div key={overallItem.date}>{overallItem.date}</div>
-      ))}
-      {platform.map((platformItem: IPlatformItem) => (
-        <div
-          key={`${platformItem.date}${platformItem.channel}`}
-        >{`${platformItem.date}${platformItem.channel}`}</div>
-      ))} */}
-      <AdvertisementStatusChart items={overall} />
-    </>
-  );
+  return <div>hello</div>;
 }
 
 export default Wrapper;
