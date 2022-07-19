@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from 'react';
-import { format, addDays } from 'date-fns';
+import { format, addDays, subDays } from 'date-fns';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
@@ -8,23 +8,28 @@ import styled from 'styled-components';
 
 const FIRST_DATE = new Date('2022-02-01');
 const LAST_DATE = new Date('2022-04-20');
-const INTERVAL = 5;
+const INTERVAL = 6;
 
 function Dashboard() {
   const selectItems = getSelectItems();
-  const [date, setDate] = useState(selectItems[0]);
+  const [rangeDate, setRangeDate] = useState(selectItems[0]);
+
+  const currStartDate = splitRangeDate(rangeDate)[0];
+  const currEndDate = splitRangeDate(rangeDate)[1];
+  const prevStartDate = calcPrevDate(rangeDate)[0];
+  const prevEndDate = calcPrevDate(rangeDate)[1];
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const {
       target: { value },
     } = event;
-    setDate(value);
+    setRangeDate(value);
   };
 
   return (
     <Container>
       <InnerContainer>
-        <Select value={date} onChange={handleSelectChange}>
+        <Select value={rangeDate} onChange={handleSelectChange}>
           {selectItems.map((item: string) => (
             <MenuItem key={item} value={item}>
               {item}
@@ -33,7 +38,12 @@ function Dashboard() {
         </Select>
 
         <Suspense fallback={<Loader />}>
-          <Wrapper startDate={splitRangeDate(date)[0]} endDate={splitRangeDate(date)[1]} />
+          <Wrapper
+            currStartDate={currStartDate}
+            currEndDate={currEndDate}
+            prevStartDate={prevStartDate}
+            prevEndDate={prevEndDate}
+          />
         </Suspense>
       </InnerContainer>
     </Container>
@@ -70,4 +80,23 @@ function formatRangeDate(startDate: Date, endDate: Date): string {
 function splitRangeDate(rangeDate: string) {
   const splitString = ' ~ ';
   return rangeDate.split(splitString);
+}
+
+function calcPrevDate(rangeDate: string) {
+  const startDate = splitRangeDate(rangeDate)[0];
+  const endDate = splitRangeDate(rangeDate)[1];
+
+  const splitStartDate = startDate.split('-');
+  const splitEndDate = endDate.split('-');
+
+  const prevStartDate = subDays(
+    new Date(+splitStartDate[0], +splitStartDate[1] - 1, +splitStartDate[2]),
+    INTERVAL + 1,
+  );
+  const prevEndDate = subDays(
+    new Date(+splitEndDate[0], +splitEndDate[1] - 1, +splitEndDate[2]),
+    INTERVAL + 1,
+  );
+
+  return splitRangeDate(formatRangeDate(prevStartDate, prevEndDate));
 }
