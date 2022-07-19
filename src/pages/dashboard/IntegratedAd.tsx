@@ -12,14 +12,15 @@ interface IDataListType {
 }
 
 interface IIntergratedAdProps {
-  overall: IOverallItems;
+  prevOverall: IOverallItems;
+  currOverall: IOverallItems;
 }
 
 interface Idate {
   data: number[] | any | any[];
 }
 
-function IntergratedAd({ overall }: IIntergratedAdProps): JSX.Element {
+function IntergratedAd({ prevOverall, currOverall }: IIntergratedAdProps): JSX.Element {
   const roasList: IDataListType['ListType'] = [];
   const costList: IDataListType['ListType'] = [];
   const impList: IDataListType['ListType'] = [];
@@ -27,15 +28,29 @@ function IntergratedAd({ overall }: IIntergratedAdProps): JSX.Element {
   const cvrList: IDataListType['ListType'] = [];
   const convValueList: IDataListType['ListType'] = [];
 
-  const selectOverall: IOverallItems = overall;
+  const prevRoasList: IDataListType['ListType'] = [];
+  const prevCostList: IDataListType['ListType'] = [];
+  const prevImpList: IDataListType['ListType'] = [];
+  const prevClickList: IDataListType['ListType'] = [];
+  const prevCvrList: IDataListType['ListType'] = [];
+  const prevConvValue: IDataListType['ListType'] = [];
 
-  selectOverall.forEach((data: IOverallItem) => {
+  currOverall.forEach((data: IOverallItem) => {
     roasList.push(data.roas);
     costList.push(data.cost);
     impList.push(data.imp);
     clickList.push(data.click);
     cvrList.push(data.cvr);
     convValueList.push(data.convValue);
+  });
+
+  prevOverall.forEach((data: IOverallItem) => {
+    prevRoasList.push(data.roas);
+    prevCostList.push(data.cost);
+    prevImpList.push(data.imp);
+    prevClickList.push(data.click);
+    prevCvrList.push(data.cvr);
+    prevConvValue.push(data.convValue);
   });
 
   return (
@@ -52,6 +67,12 @@ function IntergratedAd({ overall }: IIntergratedAdProps): JSX.Element {
         clickList={clickList}
         cvrList={cvrList}
         convValue={convValueList}
+        prevRoasList={prevRoasList}
+        prevCostList={prevCostList}
+        prevImpList={prevImpList}
+        prevClickList={prevClickList}
+        prevCvrList={prevCvrList}
+        prevConvValue={prevConvValue}
       />
     </Container>
   );
