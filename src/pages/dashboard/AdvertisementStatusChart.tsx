@@ -40,7 +40,7 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
     format(new Date(overallItem.date), DATE_TYPE_MM_DD),
   );
 
-  const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
+  const chartOptions: ApexOptions = {
     chart: {
       zoom: {
         enabled: false,
@@ -116,7 +116,7 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
           </Select>
         </FormControl>
       </GraphSelects>
-      <Chart options={ADVERTISEMENT_CHART_OPTIONS} type='line' series={series} height={350} />
+      <Chart options={chartOptions} type='line' series={series} height={350} />
     </>
   );
 }
