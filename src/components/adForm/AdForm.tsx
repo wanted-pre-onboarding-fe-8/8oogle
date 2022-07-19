@@ -19,7 +19,7 @@ interface CardProps {
   campaignItem?: ICampaignItemBase;
   onSubmit?: (value: ICampaignItemBase) => void;
   onError?: () => void;
-  title: JSX.Element;
+  title: string;
 }
 
 function AdForm({
@@ -128,7 +128,7 @@ function AdForm({
 
   return (
     <BasicCard variant='outlined' style={{ borderRadius: '12px' }}>
-      {title}
+      <h1>{title}</h1>
       <form
         onSubmit={(e) => {
           e.preventDefault();

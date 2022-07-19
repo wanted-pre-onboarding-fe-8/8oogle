@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { ICampaignItem } from '../../types/campaign';
+import AdForm from '../../components/adForm/AdForm';
 
 function AdEdit() {
   const location = useLocation();
@@ -11,9 +12,9 @@ function AdEdit() {
       navigate('/ad');
     }
   }, []);
-  return <Container>AdEdit</Container>;
+  const campaign = location.state as ICampaignItem;
+
+  return <AdForm campaignItem={campaign} title='광고수정' />;
 }
 
 export default AdEdit;
-
-const Container = styled.main``;
