@@ -8,41 +8,47 @@ interface CardTableProps {
   campaignItem: ICampaignItem;
 }
 
+type TableType = {
+  [key: string]: string;
+  status: string;
+  startDate: string;
+  budget: string;
+  roas: string;
+  convValue: string;
+  cost: string;
+};
+
 function CardTable({ campaignItem }: CardTableProps) {
   const date = new Date(campaignItem.startDate);
+
+  const tableData: TableType = {
+    status: '상태',
+    startDate: '광고 생성일',
+    budget: '일 희망 예산',
+    roas: '광고 수익률',
+    convValue: '매출',
+    cost: '광고 비용',
+  };
+
+  const tableValue: TableType = {
+    status: campaignItem.status === 'active' ? '진행중' : '종료',
+    startDate: format(date, 'yyyy-MM-dd'),
+    budget: `${campaignItem.budget / 10000}만원`,
+    roas: `${campaignItem.report.roas}%`,
+    convValue: `${Math.floor(campaignItem.report.convValue / 10000).toLocaleString()}만원`,
+    cost: `${Math.floor(campaignItem.report.cost / 10000).toLocaleString()}만원`,
+  };
 
   return (
     <TableContainer>
       <Table size='small'>
         <TableBody>
-          <Row style={{ borderTop: '1px solid rgba(224, 224, 224, 1)' }}>
-            <TableCell>상태</TableCell>
-            <TableCell>{campaignItem.status === 'active' ? '진행중' : '종료'}</TableCell>
-          </Row>
-          <Row>
-            <TableCell>광고 생성일</TableCell>
-            <TableCell>{format(date, 'yyyy-MM-dd')}</TableCell>
-          </Row>
-          <Row>
-            <TableCell>일 희망 예산</TableCell>
-            <TableCell>{campaignItem.budget / 10000}만원</TableCell>
-          </Row>
-          <Row>
-            <TableCell>광고 수익률</TableCell>
-            <TableCell>{campaignItem.report.roas}%</TableCell>
-          </Row>
-          <Row>
-            <TableCell>매출</TableCell>
-            <TableCell>
-              {Math.floor(campaignItem.report.convValue / 10000).toLocaleString()}만원
-            </TableCell>
-          </Row>
-          <Row>
-            <TableCell>광고 비용</TableCell>
-            <TableCell>
-              {Math.floor(campaignItem.report.cost / 10000).toLocaleString()}만원
-            </TableCell>
-          </Row>
+          {Object.keys(tableData).map((value) => (
+            <Row key={campaignItem.id}>
+              <TableCell>{tableData[value]}</TableCell>
+              <TableCell>{tableValue[value]}</TableCell>
+            </Row>
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
