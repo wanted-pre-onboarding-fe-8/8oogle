@@ -54,12 +54,7 @@ function IntergratedAd({ prevOverall, currOverall }: IIntergratedAdProps): JSX.E
   });
 
   return (
-    <Container maxWidth='md' sx={{ bgcolor: '#F6F7F8' }}>
-      <ContentWrapper container spacing={1}>
-        <TitleArea item xs={12}>
-          <Title p={3}>통합 광고 현황</Title>
-        </TitleArea>
-      </ContentWrapper>
+    <>
       <Indicators
         roasList={roasList}
         costList={costList}
@@ -74,7 +69,7 @@ function IntergratedAd({ prevOverall, currOverall }: IIntergratedAdProps): JSX.E
         prevCvrList={prevCvrList}
         prevConvValue={prevConvValue}
       />
-    </Container>
+    </>
   );
 }
 
