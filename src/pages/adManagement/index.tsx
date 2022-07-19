@@ -32,7 +32,7 @@ function AdManagement() {
 
   return (
     <Container>
-      <Typography variant='h5' sx={{ pl: 3, mt: 2, mb: 4 }} style={{ fontWeight: '700' }}>
+      <Typography variant='h5' sx={{ mt: 2, mb: 4 }} style={{ fontWeight: '700' }}>
         광고관리
       </Typography>
       <Layout>
@@ -70,6 +70,7 @@ function getStatusEn(statusKo: typeStatusKo): typeStatus {
 }
 
 const Layout = styled(Container)`
+  margin-bottom: 2rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
   background-color: white;
