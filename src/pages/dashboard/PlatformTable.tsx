@@ -11,11 +11,14 @@ import {
 import styled from 'styled-components';
 import { IPlatformItem, IPlatformItems } from '../../types/platform';
 
-type reducerType = Omit<IPlatformItem, 'date'>;
+type tableDataType = Omit<IPlatformItem, 'date'>;
 type KeyOfIPlatformItem = keyof IPlatformItem;
 type platforms = 'google' | 'kakao' | 'naver' | 'facebook';
+type DataAggregationByPlatform = {
+  [key in platforms]: tableDataType;
+};
 
-const initialValue: reducerType = {
+const initialValue: tableDataType = {
   channel: '',
   imp: 0,
   click: 0,
@@ -28,7 +31,7 @@ const initialValue: reducerType = {
   roas: 0,
 };
 
-const initReducer: { [key in platforms]: reducerType } = {
+const initReducer: DataAggregationByPlatform = {
   google: { ...initialValue, channel: 'google' },
   kakao: { ...initialValue, channel: 'kakao' },
   naver: { ...initialValue, channel: 'naver' },
@@ -36,14 +39,14 @@ const initReducer: { [key in platforms]: reducerType } = {
 };
 
 // data는 임시 props. data props로 platform 데이터를 받는 거 가정.
-export default function PlatformTable({ data }: { data: IPlatformItems }) {
-  const [rows, setRows] = React.useState<reducerType[]>([]);
+export default function PlatformTable({ data = dummyData }: { data?: IPlatformItems }) {
+  const [rows, setRows] = React.useState<tableDataType[]>([]);
   React.useEffect(() => {
-    const sumOfData: reducerType = { ...initialValue, channel: 'sum' };
+    const sumOfData: tableDataType = { ...initialValue, channel: 'sum' };
     const reducedData = data.reduce(
-      (storage: { [key in platforms]: reducerType }, cur: IPlatformItem) => {
-        const channel = cur.channel as platforms;
-        for (const [key, value] of Object.entries(cur) as [
+      (storage: DataAggregationByPlatform, currentItem: IPlatformItem) => {
+        const channel = currentItem.channel as platforms;
+        for (const [key, value] of Object.entries(currentItem) as [
           key: KeyOfIPlatformItem,
           value: number,
         ][]) {
@@ -56,14 +59,8 @@ export default function PlatformTable({ data }: { data: IPlatformItems }) {
       },
       initReducer,
     );
-
-    // 합치기
-    const newRows: reducerType[] = [];
-    for (const key of Object.keys(reducedData) as platforms[]) newRows.push(reducedData[key]);
-    newRows.push(sumOfData);
-
-    setRows(newRows);
-  }, [data]);
+    setRows([...Object.values(reducedData), sumOfData]);
+  }, []);
 
   return (
     <div style={{ width: '100%' }}>
