@@ -43,8 +43,8 @@ function CardTable({ campaignItem }: CardTableProps) {
     <TableContainer>
       <Table size='small'>
         <TableBody>
-          {Object.keys(tableData).map((value) => (
-            <Row key={campaignItem.id}>
+          {Object.keys(tableData).map((value, index) => (
+            <Row key={index}>
               <TableCell>{tableData[value]}</TableCell>
               <TableCell>{tableValue[value]}</TableCell>
             </Row>
