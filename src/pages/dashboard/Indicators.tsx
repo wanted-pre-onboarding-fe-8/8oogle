@@ -3,6 +3,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { experimentalStyled } from '@mui/material/styles';
 import styled, { css } from 'styled-components';
+import { OVERALL_CONSTANTS } from '../../utils/constants/data';
+
+import compareValue from '../../utils/helpers/compareValue';
 
 export default function Indicators({
   roasList,
@@ -11,14 +14,62 @@ export default function Indicators({
   clickList,
   cvrList,
   convValue,
+  prevRoasList,
+  prevCostList,
+  prevImpList,
+  prevClickList,
+  prevCvrList,
+  prevConvValue,
 }: any): JSX.Element {
+  const { OVERALL, ROAS, IMP, CLICK, COST, CONV, CONVVALUE, CTR, CVR, CPC, CPA } =
+    OVERALL_CONSTANTS;
+
   const INITIAL_VALUE = 0;
-  const sumRoas = roasList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumRoas =
+    roasList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE) / roasList.length;
   const sumCost = costList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
   const sumImp = impList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
   const sumClick = clickList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
   const sumCvr = cvrList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
   const sumConvValue = convValue.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+
+  const sumBeforeRoas =
+    prevRoasList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE) /
+    prevRoasList.length;
+  const sumBeforeCost = prevCostList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumBeforeImp = prevImpList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumBeforeClick = prevClickList.reduce(
+    (a: number, b: number): number => a + b,
+    INITIAL_VALUE,
+  );
+  const sumBeforeCvr = prevCvrList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE);
+  const sumBeforeConvValue = prevConvValue.reduce(
+    (a: number, b: number): number => a + b,
+    INITIAL_VALUE,
+  );
+  const compareRoas = compareValue(sumRoas, sumBeforeRoas);
+  const compareCost = compareValue(sumCost, sumBeforeCost);
+  const compareImp = compareValue(sumImp, sumBeforeImp);
+  const compareClick = compareValue(sumClick, sumBeforeClick);
+  const compareCvr = compareValue(sumCvr, sumBeforeCvr);
+  const compareConvValue = compareValue(sumConvValue, sumBeforeConvValue);
+
+  function compareValueAction(key: string) {
+    switch (key) {
+      case ROAS:
+        return sumRoas > sumBeforeRoas;
+      case COST:
+        return sumCost > sumBeforeCost;
+      case IMP:
+        return sumImp > sumBeforeImp;
+      case CLICK:
+        return sumClick > sumBeforeClick;
+      case CVR:
+        return sumCvr > sumBeforeCvr;
+      case CONVVALUE:
+        return sumConvValue > sumBeforeConvValue;
+    }
+  }
 
   return (
     <Box sx={{ p: 4 }}>
@@ -30,7 +81,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareRoas ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(ROAS)}>{compareRoas.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -41,7 +96,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareCost ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(COST)}>{compareCost.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -52,7 +111,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareImp ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(IMP)}>{compareImp.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -63,7 +126,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareClick ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CLICK)}>{compareClick.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -74,7 +141,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareCvr ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CVR)}>{compareCvr.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -85,7 +156,11 @@ export default function Indicators({
           </Content>
           <Content item xs={6} sm={6}>
             <ChangeValue p={2}>
-              <Event>--</Event>
+              {!compareConvValue ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CONVVALUE)}>{compareConvValue.toFixed(1)}</Event>
+              )}
             </ChangeValue>
           </Content>
         </ContentWraper>
@@ -140,13 +215,13 @@ const Event = styled.span<{ active?: boolean }>`
   ${({ active }) =>
     active
       ? css`
-          color: blue;
+          color: red;
           &::before {
             content: '▲';
           }
         `
       : css`
-          color: red;
+          color: blue;
           &::before {
             content: '▼';
           }
