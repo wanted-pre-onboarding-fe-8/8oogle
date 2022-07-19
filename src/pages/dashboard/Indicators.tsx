@@ -21,7 +21,7 @@ export default function Indicators({
   prevCvrList,
   prevConvValue,
 }: any): JSX.Element {
-  const { OVERALL, ROAS, IMP, CLICK, COST, CONV, CONVVALUE, CTR, CVR, CPC, CPA } =
+  const { OVERALL, ROAS, IMP, CLICK, COST, CONV, CONV_VALUE, CTR, CVR, CPC, CPA } =
     OVERALL_CONSTANTS;
 
   const INITIAL_VALUE = 0;
@@ -66,7 +66,7 @@ export default function Indicators({
         return sumClick > sumBeforeClick;
       case CVR:
         return sumCvr > sumBeforeCvr;
-      case CONVVALUE:
+      case CONV_VALUE:
         return sumConvValue > sumBeforeConvValue;
     }
   }
@@ -159,7 +159,7 @@ export default function Indicators({
               {!compareConvValue ? (
                 <NoEvent>--</NoEvent>
               ) : (
-                <Event active={compareValueAction(CONVVALUE)}>{compareConvValue.toFixed(1)}</Event>
+                <Event active={compareValueAction(CONV_VALUE)}>{compareConvValue.toFixed(1)}</Event>
               )}
             </ChangeValue>
           </Content>
