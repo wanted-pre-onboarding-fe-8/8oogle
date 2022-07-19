@@ -10,14 +10,14 @@ import {
   Select,
 } from '@mui/material';
 import format from 'date-fns/format';
-import { ICampaignItemBase } from '../../types/campaign';
+import { ICampaignItemBase, ICampaignItem } from '../../types/campaign';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import useInput from '../../hooks/useInput';
 import CurrencyField from './CurrencyField';
 
 interface CardProps {
-  campaignItem?: ICampaignItemBase;
-  onSubmit?: (value: ICampaignItemBase) => void;
+  campaignItem?: ICampaignItem;
+  onSubmit?: (value: ICampaignItem) => void;
   onError?: () => void;
   title: string;
 }
@@ -29,7 +29,7 @@ function AdForm({
     console.log('제출쓰', value);
   },
 }: CardProps) {
-  const [values, setValues, onChange] = useInput<ICampaignItemBase>(campaignItem);
+  const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
   const setNestedReportValue = (key: string, value: string | number) => {
     setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
   };
