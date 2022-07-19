@@ -4,6 +4,7 @@ import { ICampaignItem } from '../../types/campaign';
 import AdForm from '../../components/adForm/AdForm';
 
 function AdEdit() {
+  const FORM_TITLE = '광고수정';
   const location = useLocation();
   const navigate = useNavigate();
   const hasNoState = !location.state;
@@ -14,7 +15,7 @@ function AdEdit() {
   }, []);
   const campaign = location.state as ICampaignItem;
 
-  return <AdForm campaignItem={campaign} title='광고수정' />;
+  return <AdForm campaignItem={campaign} title={FORM_TITLE} />;
 }
 
 export default AdEdit;
