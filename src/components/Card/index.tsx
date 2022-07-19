@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactNode, useState } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { ICampaignItem } from '../../types/campaign';
 import styled from 'styled-components';
 import { Button, Card as DefaultCard, CardActions, CardContent, CardHeader } from '@mui/material';
