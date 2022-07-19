@@ -1,7 +1,7 @@
 import React from 'react';
 import { getCampaignByStatus } from '../../queries/queryRequest';
 import { typeStatus, ICampaignItem } from '../../types/campaign';
-import Card from './Card';
+import Card from '../../components/Card';
 
 interface IWrapper {
   status: typeStatus;
