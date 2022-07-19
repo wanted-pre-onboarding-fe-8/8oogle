@@ -8,27 +8,18 @@ import { ApexOptions } from 'apexcharts';
 import { createAdvertismentSeries } from '../../utils/helpers/charts';
 import { IOverallItems, IOverallItem } from '../../types/overall';
 import format from 'date-fns/format';
+import { OVERALL_CONSTANTS } from '../../utils/constants/data';
+const { IMP, CLICK, CONV, CONV_VALUE, COST, CTR, CVR, CPC, CPA, ROAS, DATE_TYPE_MM_DD } =
+  OVERALL_CONSTANTS;
 
-const selectOptions = [
-  'imp',
-  'click',
-  'conv',
-  'convValue',
-  'cost',
-  'ctr',
-  'cvr',
-  'cpc',
-  'cpa',
-  'roas',
-];
-
+const selectOptions = [IMP, CLICK, CONV, CONV_VALUE, COST, CTR, CVR, CPC, CPA, ROAS];
 interface PlatformChartProps {
   items: IOverallItems;
 }
 
 export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
-  const [selectId1, setSelectId1] = React.useState('roas');
-  const [selectId2, setSelectId2] = React.useState('click');
+  const [selectId1, setSelectId1] = React.useState<string>(ROAS);
+  const [selectId2, setSelectId2] = React.useState<string>(CLICK);
 
   const [series, setSeries] = React.useState<ApexAxisChartSeries>(
     createAdvertismentSeries(items, selectId1, selectId2),
@@ -46,7 +37,7 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
   };
 
   const dateCategories = items.map((overallItem: IOverallItem): string =>
-    format(new Date(overallItem.date), 'MM월 dd일'),
+    format(new Date(overallItem.date), DATE_TYPE_MM_DD),
   );
 
   const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
