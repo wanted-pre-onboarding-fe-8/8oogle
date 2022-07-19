@@ -4,6 +4,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
 import Loader from './Loader';
+import styled from 'styled-components';
 
 const FIRST_DATE = new Date('2022-02-01');
 const LAST_DATE = new Date('2022-04-20');
@@ -21,23 +22,34 @@ function Dashboard() {
   };
 
   return (
-    <>
-      <Select value={date} onChange={handleSelectChange}>
-        {selectItems.map((item: string) => (
-          <MenuItem key={item} value={item}>
-            {item}
-          </MenuItem>
-        ))}
-      </Select>
+    <Container>
+      <InnerContainer>
+        <Select value={date} onChange={handleSelectChange}>
+          {selectItems.map((item: string) => (
+            <MenuItem key={item} value={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
 
-      <Suspense fallback={<Loader />}>
-        <Wrapper startDate={splitRangeDate(date)[0]} endDate={splitRangeDate(date)[1]} />
-      </Suspense>
-    </>
+        <Suspense fallback={<Loader />}>
+          <Wrapper startDate={splitRangeDate(date)[0]} endDate={splitRangeDate(date)[1]} />
+        </Suspense>
+      </InnerContainer>
+    </Container>
   );
 }
 
 export default Dashboard;
+
+const Container = styled.main`
+  grid-area: outlet;
+  height: 300vh;
+`;
+const InnerContainer = styled.div`
+  max-width: 1024px;
+  margin: 0 auto;
+`;
 
 function getSelectItems(): string[] {
   const items = [];
