@@ -17,7 +17,7 @@ function Card({ campaignItem, onDelete }: CardProps) {
   const navigate = useNavigate();
 
   const handleModifyClick = () => {
-    navigate(`/ad/edit/${campaignItem.id}`, { state: campaignItem });
+    navigate('/ad/edit', { state: campaignItem });
   };
 
   const handleCloseClick = (event: MouseEvent<HTMLButtonElement>) => {
