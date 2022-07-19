@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Chart from 'react-apexcharts';
-import { createAdvertismentSeries } from '../../utils/helpers/charts';
 import { ApexOptions } from 'apexcharts';
+import { createAdvertismentSeries } from '../../utils/helpers/charts';
 import { IOverallItems, IOverallItem } from '../../types/overall';
+import format from 'date-fns/format';
 
 const selectOptions = [
   'imp',
@@ -26,7 +27,12 @@ interface PlatformChartProps {
 }
 
 export default function AdvertisementStatusChart({ items }: PlatformChartProps): JSX.Element {
-  const [series, setSeries] = React.useState<ApexAxisChartSeries>([{ data: [], name: '' }]);
+  const [selectId1, setSelectId1] = React.useState('roas');
+  const [selectId2, setSelectId2] = React.useState('click');
+
+  const [series, setSeries] = React.useState<ApexAxisChartSeries>(
+    createAdvertismentSeries(items, selectId1, selectId2),
+  );
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
@@ -34,14 +40,13 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
     } else {
       setSelectId2(event.target.value as string);
     }
+
+    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
+    setSeries(getSeries);
   };
 
-  const [selectId1, setSelectId1] = React.useState('roas');
-  const [selectId2, setSelectId2] = React.useState('click');
-
-  const dateCategories = items.map(
-    (overallItem: IOverallItem): string =>
-      overallItem.date.substr(5, 2) + '월 ' + overallItem.date.substr(8, 2) + '일',
+  const dateCategories = items.map((overallItem: IOverallItem): string =>
+    format(new Date(overallItem.date), 'MM월 dd일'),
   );
 
   const ADVERTISEMENT_CHART_OPTIONS: ApexOptions = {
@@ -83,11 +88,6 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
       show: false,
     },
   };
-
-  useEffect(() => {
-    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
-    setSeries(getSeries);
-  }, [items, selectId1, selectId2]);
 
   return (
     <>
