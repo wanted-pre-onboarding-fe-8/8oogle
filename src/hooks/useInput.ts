@@ -16,10 +16,10 @@ function useInput<T>(initialValue: T): ReturnTypes<T> {
     e.preventDefault();
     const key = e.target.name as keyof T;
     const value: string | number = e.target.value;
-    setValues({
-      ...initialValue,
+    setValues((pre) => ({
+      ...pre,
       [key]: value,
-    });
+    }));
   };
 
   return [values, setValues, onChange];
