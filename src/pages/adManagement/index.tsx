@@ -1,12 +1,12 @@
 import React, { Suspense, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import { typeStatus } from '../../types/campaign';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { Button, Container, FormControl } from '@mui/material';
+import { Button, Container, FormControl, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
 
 const ALL = '전체';
 const ACTIVE = '진행중';
@@ -31,24 +31,28 @@ function AdManagement() {
   };
 
   return (
-    <Layout>
-      <ButtonWrapper>
-        <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
-          <Select value={statusKo} onChange={handleSelectChange}>
-            {selectItems.map((item: string) => (
-              <MenuItem key={item} value={item}>
-                {item}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <Button onClick={createAd}>광고 만들기</Button>
-      </ButtonWrapper>
-
-      <Suspense fallback={<div>Loading</div>}>
-        <Wrapper status={getStatusEn(statusKo)} />
-      </Suspense>
-    </Layout>
+    <Container>
+      <Typography variant='h5' sx={{ pl: 3, mt: 2, mb: 4 }} style={{ fontWeight: '700' }}>
+        광고관리
+      </Typography>
+      <Layout>
+        <ButtonWrapper>
+          <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
+            <Select value={statusKo} onChange={handleSelectChange}>
+              {selectItems.map((item: string) => (
+                <MenuItem key={item} value={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <Button onClick={createAd}>광고 만들기</Button>
+        </ButtonWrapper>
+        <Suspense fallback={<div>Loading</div>}>
+          <Wrapper status={getStatusEn(statusKo)} />
+        </Suspense>
+      </Layout>
+    </Container>
   );
 }
 
