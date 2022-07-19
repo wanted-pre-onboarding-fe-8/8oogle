@@ -17,22 +17,17 @@ import CurrencyField from './CurrencyField';
 
 interface CardProps {
   campaignItem?: ICampaignItem;
-  onSubmit?: (value: ICampaignItem) => void;
-  onError?: () => void;
+  onSubmit: (value: ICampaignItem) => void;
+  onCancle: () => void;
   title: string;
 }
 
-function AdForm({
-  campaignItem = mockItem,
-  title,
-  onSubmit = (value: ICampaignItemBase) => {
-    console.log('제출쓰', value);
-  },
-}: CardProps) {
+function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
   const setNestedReportValue = (key: string, value: string | number) => {
     setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
   };
+
   const Rows = [
     {
       label: '광고유형',
@@ -60,6 +55,7 @@ function AdForm({
       label: '예산',
       content: (
         <CurrencyField
+          initialValue={values.budget}
           setCurrencyValue={(value: number) => {
             setValues((pre) => ({ ...pre, budget: value }));
           }}
@@ -86,13 +82,17 @@ function AdForm({
           value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
           onChange={onChange}
           type='date'
+          error={!values.endDate}
         />
       ),
     },
     {
       label: '광고비용',
       content: (
-        <CurrencyField setCurrencyValue={(value: number) => setNestedReportValue('cost', value)} />
+        <CurrencyField
+          initialValue={values.report.cost}
+          setCurrencyValue={(value: number) => setNestedReportValue('cost', value)}
+        />
       ),
     },
     {
@@ -141,7 +141,9 @@ function AdForm({
           ))}
         </Grid>
         <ButtonGroup variant='contained' sx={{ marginTop: 3, float: 'right' }}>
-          <Button variant='outlined'>취소</Button>
+          <Button variant='outlined' onClick={onCancle}>
+            취소
+          </Button>
           <Button type='submit'>등록</Button>
         </ButtonGroup>
       </form>
@@ -186,3 +188,12 @@ const mockItem = {
 };
 
 export default AdForm;
+
+const adType = '광고유형';
+const title = '광고이름';
+const budget = '예산';
+const startDate = '광고시작일';
+const endDate = '광고종료일';
+const cost = '광고비용';
+const convValue = '전환횟수';
+const ROAS = 'ROAS';
