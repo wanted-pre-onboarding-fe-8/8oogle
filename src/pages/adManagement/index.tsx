@@ -2,9 +2,10 @@ import React, { Suspense, useState } from 'react';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import { typeStatus } from '../../types/campaign';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { FormControl } from '@mui/material';
+import { Container, FormControl } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
+import styled from 'styled-components';
 
 const ALL = '전체';
 const ACTIVE = '진행중';
@@ -24,7 +25,7 @@ function AdManagement() {
   };
 
   return (
-    <>
+    <Layout>
       <FormControl variant='standard' sx={{ m: 1, minWidth: 120 }}>
         <Select value={statusKo} onChange={handleSelectChange}>
           {selectItems.map((item: string) => (
@@ -38,7 +39,7 @@ function AdManagement() {
       <Suspense fallback={<div>Loading</div>}>
         <Wrapper status={getStatusEn(statusKo)} />
       </Suspense>
-    </>
+    </Layout>
   );
 }
 
@@ -54,3 +55,9 @@ function getStatusEn(statusKo: typeStatusKo): typeStatus {
 
   return statusObj[statusKo];
 }
+
+const Layout = styled(Container)`
+  background-color: white;
+  border-radius: 12px;
+  overflow-y: scroll;
+`;
