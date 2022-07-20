@@ -54,6 +54,10 @@ export default function Indicators({
   const compareCvr = compareValue(sumCvr, sumBeforeCvr);
   const compareConvValue = compareValue(sumConvValue, sumBeforeConvValue);
 
+  const option = {
+    maximumFractionDigits: 3,
+  };
+
   function compareValueAction(key: string) {
     switch (key) {
       case ROAS:
@@ -72,98 +76,100 @@ export default function Indicators({
   }
 
   return (
-    <CardWrapper container spacing={0}>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>Roas</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumRoas.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareRoas ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(ROAS)}>{compareRoas.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>광고비</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumCost.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareCost ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(COST)}>{compareCost.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>노출수</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumImp.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareImp ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(IMP)}>{compareImp.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>클릭수</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumClick.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareClick ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(CLICK)}>{compareClick.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>전환수</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumCvr.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareCvr ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(CVR)}>{compareCvr.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-      <ContentWraper item xs={2} sm={4}>
-        <Title p={2}>매출</Title>
-        <Content item xs={6} sm={6}>
-          <Value p={2}>{sumConvValue.toFixed(2)}</Value>
-        </Content>
-        <Content item xs={6} sm={6}>
-          <ChangeValue p={2}>
-            {!compareConvValue ? (
-              <NoEvent>--</NoEvent>
-            ) : (
-              <Event active={compareValueAction(CONV_VALUE)}>{compareConvValue.toFixed(1)}</Event>
-            )}
-          </ChangeValue>
-        </Content>
-      </ContentWraper>
-    </CardWrapper>
+    <Box sx={{ p: 4 }}>
+      <CardWrapper container spacing={0}>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>Roas</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumRoas.toLocaleString('ko-KR', option)}%`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareRoas ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(ROAS)}>{compareRoas.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>광고비</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumCost.toLocaleString('ko-KR', option)} 원`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareCost ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(COST)}>{compareCost.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>노출수</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumImp.toLocaleString('ko-KR', option)} 회`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareImp ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(IMP)}>{compareImp.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>클릭수</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumClick.toLocaleString('ko-KR', option)} 회`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareClick ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CLICK)}>{compareClick.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>전환수</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumCvr.toLocaleString('ko-KR', option)} 회`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareCvr ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CVR)}>{compareCvr.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+        <ContentWraper item xs={2} sm={4}>
+          <Title p={2}>매출</Title>
+          <Content item xs={6} sm={6}>
+            <Value p={2}>{`${sumConvValue.toLocaleString('ko-KR', option)} 원`}</Value>
+          </Content>
+          <Content item xs={6} sm={6}>
+            <ChangeValue p={2}>
+              {!compareConvValue ? (
+                <NoEvent>--</NoEvent>
+              ) : (
+                <Event active={compareValueAction(CONV_VALUE)}>{compareConvValue.toFixed(1)}</Event>
+              )}
+            </ChangeValue>
+          </Content>
+        </ContentWraper>
+      </CardWrapper>
+    </Box>
   );
 }
 
@@ -172,13 +178,12 @@ const CardWrapper = experimentalStyled(Grid)({
   width: '100%',
   height: '100%',
   margin: 'auto',
-  padding: '3rem',
+  padding: '2rem',
   borderRadius: '10px',
-  // boxShadow: '10px 10px 30px #e8e8e8',
 });
 
 const Title = experimentalStyled(Grid)({
-  fontSize: '.5rem',
+  fontSize: '1rem',
   width: '100%',
   marginTop: '1.5rem',
 });
@@ -186,14 +191,13 @@ const Title = experimentalStyled(Grid)({
 const ContentWraper = experimentalStyled(Grid)({
   display: 'flex',
   flexWrap: 'wrap',
-  margint: 'auto',
 });
 const Content = experimentalStyled(Grid)({});
 
 const Value = experimentalStyled(Grid)({
   color: '#000',
   background: '#fff',
-  width: '100%',
+  width: '10rem',
   fontSize: '1rem',
   fontWeight: '700',
 });
@@ -226,7 +230,6 @@ const Event = styled.span<{ active?: boolean }>`
         `};
 
   list-style: none;
-  font-size: '.5rem';
   justify-content: center;
   align-items: center;
   vertical-align: middle;
