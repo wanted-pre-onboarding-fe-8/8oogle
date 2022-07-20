@@ -5,6 +5,7 @@ import { ICampaignItem } from '../../types/campaign';
 import AdForm from '../../components/adForm/AdForm';
 import { updateCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
+import styled from 'styled-components';
 
 function AdEdit() {
   const FORM_TITLE = '광고수정';
@@ -28,8 +29,21 @@ function AdEdit() {
   };
 
   return (
-    <>{hasState && <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />}</>
+    <Container>
+      {hasState ? (
+        <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />
+      ) : (
+        <></>
+      )}
+    </Container>
   );
 }
 
 export default AdEdit;
+
+const Container = styled.main`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
