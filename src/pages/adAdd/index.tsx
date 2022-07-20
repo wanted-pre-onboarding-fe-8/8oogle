@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, Typography } from '@mui/material';
+import { Alert } from '@mui/material';
 import AdForm from '../../components/adForm/AdForm';
 import { ICampaignItemBase } from '../../types/campaign';
 import { createCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
