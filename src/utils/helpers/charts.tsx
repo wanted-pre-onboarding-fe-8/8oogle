@@ -30,7 +30,7 @@ const createPlatformSeries = (platforms: IPlatformItems) => {
         const newSales = platform.roas * platform.cost + sales;
         const newImpression = platform.imp + impression;
         const newClick = platform.click + click;
-        const newConversion = platform.cvr * platform.imp + conversion;
+        const newConversion = platform.cvr * platform.click + conversion;
         const newCount = count + 1;
 
         platformMap.set(platform.channel, [
