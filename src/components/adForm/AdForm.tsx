@@ -1,38 +1,38 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import {
   Button,
   ButtonGroup,
   Card as DefaultCard,
+  Checkbox,
+  FormControlLabel,
   Grid,
   Input,
   MenuItem,
   Select,
 } from '@mui/material';
 import format from 'date-fns/format';
-import { ICampaignItemBase, ICampaignItem } from '../../types/campaign';
+import { ICampaignItem } from '../../types/campaign';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import useInput from '../../hooks/useInput';
 import CurrencyField from './CurrencyField';
+import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
   campaignItem?: ICampaignItem;
-  onSubmit?: (value: ICampaignItem) => void;
-  onError?: () => void;
+  onSubmit: (value: ICampaignItem) => void;
   title: string;
 }
 
-function AdForm({
-  campaignItem = mockItem,
-  title,
-  onSubmit = (value: ICampaignItemBase) => {
-    console.log('제출쓰', value);
-  },
-}: CardProps) {
+function AdForm({ campaignItem = mockItem, title, onSubmit }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
+  const [isEndDateNull, setIsEndDateNull] = useState(false);
+  const navigate = useNavigate();
+
   const setNestedReportValue = (key: string, value: string | number) => {
     setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
   };
+
   const Rows = [
     {
       label: '광고유형',
@@ -46,26 +46,20 @@ function AdForm({
     },
     {
       label: '광고이름',
-      content: (
-        <Input
-          type='text'
-          value={values.title}
-          onChange={onChange}
-          name='title'
-          error={!values.title}
-        />
-      ),
+      content: <Input type='text' value={values.title} onChange={onChange} name='title' />,
     },
     {
       label: '예산',
       content: (
         <CurrencyField
+          initialValue={values.budget}
           setCurrencyValue={(value: number) => {
             setValues((pre) => ({ ...pre, budget: value }));
           }}
         />
       ),
     },
+
     {
       label: '광고시작일',
       content: (
@@ -74,25 +68,52 @@ function AdForm({
           name='startDate'
           value={values.startDate ? format(new Date(values.startDate), 'yyyy-MM-dd') : ''}
           onChange={onChange}
-          error={!values.startDate}
         />
       ),
     },
     {
       label: '광고종료일',
       content: (
-        <Input
-          name='endDate'
-          value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
-          onChange={onChange}
-          type='date'
-        />
+        <>
+          <Input
+            name='endDate'
+            value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
+            onChange={onChange}
+            type='date'
+            disabled={isEndDateNull}
+            sx={{ marginRight: '20px' }}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isEndDateNull}
+                onChange={() => {
+                  setIsEndDateNull((pre) => !pre);
+                  setValues((pre) => ({ ...pre, endDate: null }));
+                }}
+              />
+            }
+            label='종료일을 지정하지 않습니다.'
+          />
+        </>
+      ),
+    },
+    {
+      label: '광고상태',
+      content: (
+        <Select name='status' value={values.status} onChange={onChange}>
+          <MenuItem value={CAMPAIGN_CONSTANTS.STATUS_ACTIVE}>진행중</MenuItem>
+          <MenuItem value={CAMPAIGN_CONSTANTS.STATUS_ENDED}>종료</MenuItem>
+        </Select>
       ),
     },
     {
       label: '광고비용',
       content: (
-        <CurrencyField setCurrencyValue={(value: number) => setNestedReportValue('cost', value)} />
+        <CurrencyField
+          initialValue={values.report.cost}
+          setCurrencyValue={(value: number) => setNestedReportValue('cost', value)}
+        />
       ),
     },
     {
@@ -106,7 +127,6 @@ function AdForm({
           }
           value={values.report.convValue}
           endAdornment='번'
-          error={!values.report.convValue}
         />
       ),
     },
@@ -141,7 +161,14 @@ function AdForm({
           ))}
         </Grid>
         <ButtonGroup variant='contained' sx={{ marginTop: 3, float: 'right' }}>
-          <Button variant='outlined'>취소</Button>
+          <Button
+            variant='outlined'
+            onClick={() => {
+              navigate('/ad');
+            }}
+          >
+            취소
+          </Button>
           <Button type='submit'>등록</Button>
         </ButtonGroup>
       </form>
@@ -171,7 +198,7 @@ const BasicCard = styled(DefaultCard)`
 `;
 
 const mockItem = {
-  id: 1,
+  id: Date.now(),
   adType: 'web',
   title: '',
   budget: 0,
