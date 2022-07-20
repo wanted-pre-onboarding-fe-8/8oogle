@@ -5,36 +5,21 @@ import { ICampaignItemBase } from '../../types/campaign';
 import { createCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
 import { useNavigate } from 'react-router-dom';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
+import { useQueryClient } from 'react-query';
 
 function AdAdd() {
   const navigate = useNavigate();
-  const { mutateAsync, isError } = createCampaign();
-  const [validValue, setValidValue] = useState(true);
+  const { mutateAsync } = createCampaign();
 
-  const validateValues = (values: ICampaignItemBase) => {
-    for (const value of Object.values(values)) {
-      if (!value) {
-        return false;
-      }
-    }
-    return true;
-  };
-
+  const queryClient = useQueryClient();
   const onSubmit = async (values: ICampaignItemBase) => {
-    await mutateAsync(values, {
-      onSuccess: (data) => {
-        console.log('success', data);
-        navigate('/ad');
-      },
-    });
-    // await invalidateQueriesByName(CAMPAIGN_CONSTANTS.CAMPAIGN);
-    // navigate('/ad');
+    await mutateAsync(values);
+    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
+    navigate('/ad');
   };
 
   return (
     <div>
-      {isError && <Alert severity='warning'>실패</Alert>}
-      {!validValue && <Alert severity='warning'>모든 값을 입력해주세요</Alert>}
       <AdForm
         title='광고추가'
         onSubmit={onSubmit}
