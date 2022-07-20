@@ -30,12 +30,17 @@ function CardTable({ campaignItem }: CardTableProps) {
     cost: '광고 비용',
   };
 
+  const getSales = (cost: number, roas: number) => {
+    const sales = (cost * roas) / 100;
+    return sales;
+  };
+
   const tableValue: TableType = {
     status: campaignItem.status === 'active' ? '진행중' : '종료',
     startDate: format(date, 'yyyy-MM-dd'),
     budget: `${campaignItem.budget / 10000}만원`,
     roas: `${campaignItem.report.roas}%`,
-    convValue: `${Math.floor(campaignItem.report.convValue / 10000).toLocaleString()}만원`,
+    convValue: `${getSales(campaignItem.report.cost, campaignItem.report.roas)}만원`,
     cost: `${Math.floor(campaignItem.report.cost / 10000).toLocaleString()}만원`,
   };
 
