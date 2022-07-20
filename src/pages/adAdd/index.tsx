@@ -43,13 +43,7 @@ function AdAdd() {
       {!validValue && (
         <Alert severity='warning'>모든 값을 입력해주세요. 숫자는 0을 초과해야 합니다.</Alert>
       )}
-      <AdForm
-        title='광고추가'
-        onSubmit={onSubmit}
-        onCancle={() => {
-          navigate(-1);
-        }}
-      />
+      <AdForm title='광고추가' onSubmit={onSubmit} />
     </div>
   );
 }

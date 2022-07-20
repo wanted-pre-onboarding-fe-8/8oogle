@@ -21,11 +21,10 @@ import { useNavigate } from 'react-router-dom';
 interface CardProps {
   campaignItem?: ICampaignItem;
   onSubmit: (value: ICampaignItem) => void;
-  onCancle?: () => void;
   title: string;
 }
 
-function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProps) {
+function AdForm({ campaignItem = mockItem, title, onSubmit }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
   const [isEndDateNull, setIsEndDateNull] = useState(false);
   const navigate = useNavigate();
@@ -199,7 +198,7 @@ const BasicCard = styled(DefaultCard)`
 `;
 
 const mockItem = {
-  id: 1,
+  id: Date.now(),
   adType: 'web',
   title: '',
   budget: 0,
