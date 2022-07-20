@@ -10,10 +10,10 @@ function AdEdit() {
   const location = useLocation();
   const campaign = location.state as ICampaignItem;
   const navigate = useNavigate();
-  const hasNoState = !location.state;
+  const hasState = location.state;
 
   React.useEffect(() => {
-    if (hasNoState) {
+    if (!hasState) {
       navigate('/ad');
     }
   }, []);
@@ -25,7 +25,7 @@ function AdEdit() {
     navigate('/ad');
   };
 
-  return <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />;
+  return hasState && <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />;
 }
 
 export default AdEdit;
