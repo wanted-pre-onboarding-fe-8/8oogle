@@ -36,7 +36,7 @@ function AdAdd() {
       {isError && <Alert severity='warning'>실패</Alert>}
       {!validValue && <Alert severity='warning'>모든 값을 입력해주세요</Alert>}
       <AdForm
-        title={<Typography variant='h4'>광고 추가</Typography>}
+        title='광고추가'
         onSubmit={onSubmit}
         onCancle={() => {
           navigate(-1);

@@ -1,16 +1,18 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import styled from 'styled-components';
 import {
   Button,
   ButtonGroup,
   Card as DefaultCard,
+  Checkbox,
+  FormControlLabel,
   Grid,
   Input,
   MenuItem,
   Select,
 } from '@mui/material';
 import format from 'date-fns/format';
-import { ICampaignItemBase, ICampaignItem } from '../../types/campaign';
+import { ICampaignItem } from '../../types/campaign';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import useInput from '../../hooks/useInput';
 import CurrencyField from './CurrencyField';
@@ -18,12 +20,14 @@ import CurrencyField from './CurrencyField';
 interface CardProps {
   campaignItem?: ICampaignItem;
   onSubmit: (value: ICampaignItem) => void;
-  onCancle: () => void;
+  onCancle?: () => void;
   title: string;
 }
 
 function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
+  const [isEndDateNull, setIsEndDateNull] = useState(false);
+
   const setNestedReportValue = (key: string, value: string | number) => {
     setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
   };
@@ -41,15 +45,7 @@ function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProp
     },
     {
       label: '광고이름',
-      content: (
-        <Input
-          type='text'
-          value={values.title}
-          onChange={onChange}
-          name='title'
-          error={!values.title}
-        />
-      ),
+      content: <Input type='text' value={values.title} onChange={onChange} name='title' />,
     },
     {
       label: '예산',
@@ -62,6 +58,7 @@ function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProp
         />
       ),
     },
+
     {
       label: '광고시작일',
       content: (
@@ -70,20 +67,43 @@ function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProp
           name='startDate'
           value={values.startDate ? format(new Date(values.startDate), 'yyyy-MM-dd') : ''}
           onChange={onChange}
-          error={!values.startDate}
         />
       ),
     },
     {
       label: '광고종료일',
       content: (
-        <Input
-          name='endDate'
-          value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
-          onChange={onChange}
-          type='date'
-          error={!values.endDate}
-        />
+        <>
+          <Input
+            name='endDate'
+            value={values.endDate ? format(new Date(values.endDate), 'yyyy-MM-dd') : ''}
+            onChange={onChange}
+            type='date'
+            disabled={isEndDateNull}
+            sx={{ marginRight: '20px' }}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={isEndDateNull}
+                onChange={() => {
+                  setIsEndDateNull((pre) => !pre);
+                  setValues((pre) => ({ ...pre, endDate: null }));
+                }}
+              />
+            }
+            label='종료일을 지정하지 않습니다.'
+          />
+        </>
+      ),
+    },
+    {
+      label: '광고상태',
+      content: (
+        <Select name='status' value={values.status} onChange={onChange}>
+          <MenuItem value={CAMPAIGN_CONSTANTS.STATUS_ACTIVE}>진행중</MenuItem>
+          <MenuItem value={CAMPAIGN_CONSTANTS.STATUS_ENDED}>종료</MenuItem>
+        </Select>
       ),
     },
     {
@@ -106,7 +126,6 @@ function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProp
           }
           value={values.report.convValue}
           endAdornment='번'
-          error={!values.report.convValue}
         />
       ),
     },
@@ -188,12 +207,3 @@ const mockItem = {
 };
 
 export default AdForm;
-
-const adType = '광고유형';
-const title = '광고이름';
-const budget = '예산';
-const startDate = '광고시작일';
-const endDate = '광고종료일';
-const cost = '광고비용';
-const convValue = '전환횟수';
-const ROAS = 'ROAS';
