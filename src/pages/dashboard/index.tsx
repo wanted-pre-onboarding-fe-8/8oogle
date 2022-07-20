@@ -56,8 +56,6 @@ export default Dashboard;
 
 const Container = styled.main`
   grid-area: outlet;
-  height: 300vh;
-  background-color: #f6f5f7;
 `;
 const InnerContainer = styled.div`
   max-width: 1024px;
