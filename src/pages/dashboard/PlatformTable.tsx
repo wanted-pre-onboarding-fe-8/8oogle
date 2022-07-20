@@ -9,11 +9,14 @@ import {
   Paper,
 } from '@mui/material';
 import styled from 'styled-components';
+import { PLATFORM_CONSTANTS } from '../../utils/constants/data';
 import { IPlatformItem, IPlatformItems } from '../../types/platform';
+
+const { GOOGLE, KAKAO, NAVER, FACEBOOK, PLATFORM } = PLATFORM_CONSTANTS;
 
 type tableDataType = Omit<IPlatformItem, 'date'>;
 type KeyOfIPlatformItem = keyof IPlatformItem;
-type platforms = 'google' | 'kakao' | 'naver' | 'facebook';
+type platforms = typeof PLATFORM | typeof GOOGLE | typeof KAKAO | typeof NAVER | typeof FACEBOOK;
 type DataAggregationByPlatform = {
   [key in platforms]: tableDataType;
 };
@@ -32,17 +35,16 @@ const initialValue: tableDataType = {
 };
 
 const initReducer: DataAggregationByPlatform = {
-  google: { ...initialValue, channel: 'google' },
-  kakao: { ...initialValue, channel: 'kakao' },
-  naver: { ...initialValue, channel: 'naver' },
-  facebook: { ...initialValue, channel: 'facebook' },
+  [GOOGLE]: { ...initialValue, channel: 'google' },
+  [KAKAO]: { ...initialValue, channel: 'kakao' },
+  [NAVER]: { ...initialValue, channel: 'naver' },
+  [FACEBOOK]: { ...initialValue, channel: 'facebook' },
+  [PLATFORM]: { ...initialValue, channel: 'sum' },
 };
 
-// data는 임시 props. data props로 platform 데이터를 받는 거 가정.
 export default function PlatformTable({ data = dummyData }: { data?: IPlatformItems }) {
   const [rows, setRows] = React.useState<tableDataType[]>([]);
   React.useEffect(() => {
-    const sumOfData: tableDataType = { ...initialValue, channel: 'sum' };
     const reducedData = data.reduce(
       (storage: DataAggregationByPlatform, currentItem: IPlatformItem) => {
         const channel = currentItem.channel as platforms;
@@ -52,14 +54,14 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
         ][]) {
           if (key !== 'channel' && key !== 'date') {
             storage[channel][key] += value;
-            sumOfData[key] += value;
+            storage[PLATFORM][key] += value;
           }
         }
         return storage;
       },
       initReducer,
     );
-    setRows([...Object.values(reducedData), sumOfData]);
+    setRows([...Object.values(reducedData)]);
   }, []);
 
   return (
@@ -68,7 +70,7 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
         <Table sx={{ minWidth: 650 }} aria-label='simple table'>
           <STableHead>
             <TableRow>
-              <TableCell></TableCell>
+              <TableCell />
               <TableCell align='right'>IMP</TableCell>
               <TableCell align='right'>클릭수</TableCell>
               <TableCell align='right'>전환횟수</TableCell>
