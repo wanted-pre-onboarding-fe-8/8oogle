@@ -65,6 +65,11 @@ export default function PlatformTable({ data }: { data: IPlatformItems }) {
     setRows([...Object.values(reducedData)]);
   }, [data]);
 
+  const getSales = (cost: number, roas: number) => {
+    const sales = (cost * roas) / 100;
+    return sales;
+  };
+
   return (
     <div style={{ width: '100%' }}>
       <TableContainer component={Paper}>
@@ -72,14 +77,15 @@ export default function PlatformTable({ data }: { data: IPlatformItems }) {
           <STableHead>
             <TableRow>
               <TableCell />
-              <TableCell align='right'>IMP</TableCell>
-              <TableCell align='right'>클릭수</TableCell>
-              <TableCell align='right'>전환횟수</TableCell>
               <TableCell align='right'>광고비</TableCell>
-              <TableCell align='right'>CPA</TableCell>
-              <TableCell align='right'>CTR</TableCell>
-              <TableCell align='right'>전환율</TableCell>
+              <TableCell align='right'>매출</TableCell>
               <TableCell align='right'>ROAS</TableCell>
+              <TableCell align='right'>노출수</TableCell>
+              <TableCell align='right'>클릭수</TableCell>
+              <TableCell align='right'>CTR</TableCell>
+              <TableCell align='right'>IMP</TableCell>
+              <TableCell align='right'>CPA</TableCell>
+              <TableCell align='right'>전환율</TableCell>
             </TableRow>
           </STableHead>
           <STableBody>
@@ -88,14 +94,17 @@ export default function PlatformTable({ data }: { data: IPlatformItems }) {
                 <TableCell component='th' scope='row'>
                   {row.channel}
                 </TableCell>
-                <TableCell align='right'>{row.imp.toLocaleString()}</TableCell>
-                <TableCell align='right'>{row.click.toLocaleString()}</TableCell>
-                <TableCell align='right'>{row.convValue.toLocaleString()}</TableCell>
                 <TableCell align='right'>{row.cost.toLocaleString()}</TableCell>
-                <TableCell align='right'>{convertFloatToInt(row.cpa).toLocaleString()}</TableCell>
-                <TableCell align='right'>{convertFloatToInt(row.ctr).toLocaleString()}</TableCell>
-                <TableCell align='right'>{convertFloatToInt(row.cvr).toLocaleString()}</TableCell>
+                <TableCell align='right'>
+                  {convertFloatToInt(getSales(row.cost, row.roas)).toLocaleString()}
+                </TableCell>
                 <TableCell align='right'>{convertFloatToInt(row.roas).toLocaleString()}</TableCell>
+                <TableCell align='right'>{row.convValue.toLocaleString()}</TableCell>
+                <TableCell align='right'>{row.click.toLocaleString()}</TableCell>
+                <TableCell align='right'>{convertFloatToInt(row.ctr).toLocaleString()}</TableCell>
+                <TableCell align='right'>{row.imp.toLocaleString()}</TableCell>
+                <TableCell align='right'>{convertFloatToInt(row.cpa).toLocaleString()}</TableCell>
+                <TableCell align='right'>{convertFloatToInt(row.cvr).toLocaleString()}</TableCell>
               </TableRow>
             ))}
           </STableBody>
