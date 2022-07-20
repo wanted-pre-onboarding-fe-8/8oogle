@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import { experimentalStyled } from '@mui/material/styles';
@@ -6,6 +6,21 @@ import styled, { css } from 'styled-components';
 import { OVERALL_CONSTANTS } from '../../utils/constants/data';
 
 import compareValue from '../../utils/helpers/compareValue';
+
+interface IndicatorProps {
+  roasList: number[];
+  costList: number[];
+  impList: number[];
+  clickList: number[];
+  cvrList: number[];
+  convValue: number[];
+  prevRoasList: number[];
+  prevCostList: number[];
+  prevImpList: number[];
+  prevClickList: number[];
+  prevCvrList: number[];
+  prevConvValue: number[];
+}
 
 export default function Indicators({
   roasList,
@@ -20,10 +35,8 @@ export default function Indicators({
   prevClickList,
   prevCvrList,
   prevConvValue,
-}: any): JSX.Element {
-  const { OVERALL, ROAS, IMP, CLICK, COST, CONV, CONV_VALUE, CTR, CVR, CPC, CPA } =
-    OVERALL_CONSTANTS;
-
+}: IndicatorProps): JSX.Element {
+  const { ROAS, IMP, CLICK, COST, CONV_VALUE, CVR } = OVERALL_CONSTANTS;
   const INITIAL_VALUE = 0;
   const sumRoas =
     roasList.reduce((a: number, b: number): number => a + b, INITIAL_VALUE) / roasList.length;
@@ -78,7 +91,7 @@ export default function Indicators({
   return (
     <Box sx={{ p: 4 }}>
       <CardWrapper container spacing={0}>
-        <ContentWraper item xs={2} sm={4}>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>Roas</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumRoas.toLocaleString('ko-KR', option)}%`}</Value>
@@ -92,8 +105,8 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
+        </ContentWrapper>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>광고비</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumCost.toLocaleString('ko-KR', option)} 원`}</Value>
@@ -107,8 +120,8 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
+        </ContentWrapper>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>노출수</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumImp.toLocaleString('ko-KR', option)} 회`}</Value>
@@ -122,8 +135,8 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
+        </ContentWrapper>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>클릭수</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumClick.toLocaleString('ko-KR', option)} 회`}</Value>
@@ -137,8 +150,8 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
+        </ContentWrapper>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>전환수</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumCvr.toLocaleString('ko-KR', option)} 회`}</Value>
@@ -152,8 +165,8 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
+        </ContentWrapper>
+        <ContentWrapper item xs={2} sm={4}>
           <Title p={2}>매출</Title>
           <Content item xs={6} sm={6}>
             <Value p={2}>{`${sumConvValue.toLocaleString('ko-KR', option)} 원`}</Value>
@@ -167,7 +180,7 @@ export default function Indicators({
               )}
             </ChangeValue>
           </Content>
-        </ContentWraper>
+        </ContentWrapper>
       </CardWrapper>
     </Box>
   );
@@ -188,7 +201,7 @@ const Title = experimentalStyled(Grid)({
   marginTop: '1.5rem',
 });
 
-const ContentWraper = experimentalStyled(Grid)({
+const ContentWrapper = experimentalStyled(Grid)({
   display: 'flex',
   flexWrap: 'wrap',
 });
@@ -206,7 +219,7 @@ const ChangeValue = experimentalStyled(Grid)({
   fontSize: '.5rem',
   textAlign: 'left',
   height: '100%',
-  dispaly: 'border',
+  display: 'border',
 });
 const NoEvent = styled.span`
   font-size: 1rem;

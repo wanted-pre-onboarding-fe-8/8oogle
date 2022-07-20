@@ -1,6 +1,6 @@
 import React from 'react';
 import { getDashboard } from '../../queries/queryRequest';
-import IntergratedAd from './IntegratedAd';
+import IntegratedAd from './IntegratedAd';
 import AdvertisementStatusChart from './AdvertisementStatusChart';
 import PlatformChart from './PlatformChart';
 import PlatformTable from './PlatformTable';
@@ -14,7 +14,7 @@ interface IWrapper {
 }
 
 function Wrapper({ prevStartDate, prevEndDate, currStartDate, currEndDate }: IWrapper) {
-  const [{ data: prevOverall }, { data: prevPlatform }] = getDashboard(prevStartDate, prevEndDate);
+  const [{ data: prevOverall }] = getDashboard(prevStartDate, prevEndDate);
   const [{ data: currOverall }, { data: currPlatform }] = getDashboard(currStartDate, currEndDate);
 
   return (
@@ -22,7 +22,7 @@ function Wrapper({ prevStartDate, prevEndDate, currStartDate, currEndDate }: IWr
       <Div>
         <SubTitle>통합 광고 현황</SubTitle>
         <Card>
-          <IntergratedAd prevOverall={prevOverall} currOverall={currOverall} />
+          <IntegratedAd prevOverall={prevOverall} currOverall={currOverall} />
           <AdvertisementStatusChart items={currOverall} />
         </Card>
       </Div>
