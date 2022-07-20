@@ -26,6 +26,7 @@ function Card({ campaignItem, onDelete }: CardProps) {
 
   const handleDeleteClick = () => {
     onDelete(campaignItem.id);
+    setAnchorEl(null);
   };
 
   const handlePopoverClose = () => {
