@@ -180,7 +180,6 @@ const CardWrapper = experimentalStyled(Grid)({
   margin: 'auto',
   padding: '2rem',
   borderRadius: '10px',
-  boxShadow: '5px 5px 20px #e8e8e8',
 });
 
 const Title = experimentalStyled(Grid)({
