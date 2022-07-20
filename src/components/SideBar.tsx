@@ -8,11 +8,11 @@ function SideBar() {
   const { pathname } = useLocation();
   return (
     <Container>
-      <StyledLink isSelected={pathname === '/'} to='/'>
+      <StyledLink selected={pathname === '/'} to='/'>
         <AssessmentOutlinedIcon />
         대시보드
       </StyledLink>
-      <StyledLink isSelected={pathname === '/ad'} to='/ad'>
+      <StyledLink selected={pathname === '/ad'} to='/ad'>
         <AddchartOutlinedIcon />
         광고관리
       </StyledLink>
@@ -36,16 +36,16 @@ const Container = styled.nav`
   }
 `;
 
-const StyledLink = styled(Link)<{ isSelected: boolean }>`
+const StyledLink = styled(Link)<{ selected: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 24px;
   font-weight: 600;
   text-decoration: none;
-  color: ${(props) => (props.isSelected ? '#7888f4' : '#000')};
+  color: ${(props) => (props.selected ? '#7888f4' : '#000')};
   cursor: pointer;
-  background-color: ${(props) => (props.isSelected ? '#edeff1' : 'transparent')};
+  background-color: ${(props) => (props.selected ? '#edeff1' : 'transparent')};
   border-radius: 8px;
   padding: 8px;
 `;
