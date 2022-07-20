@@ -7,6 +7,21 @@ import { OVERALL_CONSTANTS } from '../../utils/constants/data';
 
 import compareValue from '../../utils/helpers/compareValue';
 
+interface IndicatorProps {
+  roasList: number[];
+  costList: number[];
+  impList: number[];
+  clickList: number[];
+  cvrList: number[];
+  convValue: number[];
+  prevRoasList: number[];
+  prevCostList: number[];
+  prevImpList: number[];
+  prevClickList: number[];
+  prevCvrList: number[];
+  prevConvValue: number[];
+}
+
 export default function Indicators({
   roasList,
   costList,
@@ -20,7 +35,7 @@ export default function Indicators({
   prevClickList,
   prevCvrList,
   prevConvValue,
-}: any): JSX.Element {
+}: IndicatorProps): JSX.Element {
   const { ROAS, IMP, CLICK, COST, CONV_VALUE, CVR } = OVERALL_CONSTANTS;
   const INITIAL_VALUE = 0;
   const sumRoas =
