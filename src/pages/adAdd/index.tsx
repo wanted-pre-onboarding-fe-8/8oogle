@@ -14,27 +14,46 @@ function AdAdd() {
   const queryClient = useQueryClient();
 
   const [validValue, setValidValue] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(
+    '모든 값을 입력해주세요. 숫자는 0초과인 값이어야 합니다.',
+  );
 
   const validateValues = (values: ICampaignItemBase) => {
-    for (const [key, value] of Object.entries(values)) {
-      if (key == 'endDate') continue;
-      if (typeof value === 'number' && value > 0) continue;
-      if (key === 'report') {
-        const assemble = Object.values(values[key]).every((value) => value > 0);
-        if (assemble) continue;
-        else return false;
+    function isEmpty() {
+      for (const [key, value] of Object.entries(values)) {
+        if (key == 'endDate') continue;
+        if (typeof value === 'number' && value > 0) continue;
+        if (key === 'report') {
+          const assemble = Object.values(values[key]).every((value) => value > 0);
+          if (assemble) continue;
+          else return false;
+        }
+        if (!value) {
+          return false;
+        }
       }
-      if (!value) {
+      return true;
+    }
+
+    function isSmallerStartDateThenEndDate() {
+      if (!values.endDate) return true;
+      if (values.startDate > values.endDate) {
+        setErrorMessage('광고시작일은 광고종료일보다 빨라야합니다');
         return false;
       }
+      return true;
     }
-    return true;
+
+    if (!isEmpty()) {
+      return false;
+    }
+    return isSmallerStartDateThenEndDate();
   };
 
   const onSubmit = async (values: ICampaignItemBase) => {
     if (validateValues(values)) {
       setValidValue(true);
-      await mutateAsync(values);
+      await mutateAsync({ ...values });
       await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
       navigate('/ad');
     } else {
@@ -59,9 +78,7 @@ function AdAdd() {
 
   return (
     <div>
-      {!validValue && (
-        <Alert severity='warning'>모든 값을 입력해주세요. 숫자는 0을 초과해야 합니다.</Alert>
-      )}
+      {!validValue && <Alert severity='warning'>{errorMessage}</Alert>}
       <AdForm title='광고추가' campaignItem={initialValue} onSubmit={onSubmit} />
     </div>
   );
