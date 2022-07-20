@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { useQuery, useMutation, QueryClient } from 'react-query';
 import { get, post, put, _delete } from './httpRequest';
 import { typeStatus, ICampaignItemBase } from '../types/campaign';
 import { overallService, platformService, campaignService } from './services';
@@ -40,8 +40,7 @@ export function deleteCampaign(id: number) {
 }
 
 type typeDataName = typeof OVERALL | typeof PLATFORM | typeof CAMPAIGN;
-export function invalidateQueriesByName(name: typeDataName) {
-  const queryClient = useQueryClient();
+export function invalidateQueriesByName(queryClient: QueryClient, name: typeDataName) {
   return queryClient.invalidateQueries({
     predicate: (query) => {
       return query.queryKey[0] === name;
