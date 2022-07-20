@@ -1,17 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import AddchartOutlinedIcon from '@mui/icons-material/AddchartOutlined';
 import styled from 'styled-components';
 
 function SideBar() {
+  const { pathname } = useLocation();
   return (
     <Container>
-      <StyledLink to='/'>
+      <StyledLink isSelected={pathname === '/'} to='/'>
         <AssessmentOutlinedIcon />
         대시보드
       </StyledLink>
-      <StyledLink to='/ad'>
+      <StyledLink isSelected={pathname === '/ad'} to='/ad'>
         <AddchartOutlinedIcon />
         광고관리
       </StyledLink>
@@ -35,13 +36,16 @@ const Container = styled.nav`
   }
 `;
 
-const StyledLink = styled(Link)`
+const StyledLink = styled(Link)<{ isSelected: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
   font-size: 24px;
   font-weight: 600;
   text-decoration: none;
-  color: #000;
+  color: ${(props) => (props.isSelected ? '#7888f4' : '#000')};
   cursor: pointer;
+  background-color: ${(props) => (props.isSelected ? '#edeff1' : 'transparent')};
+  border-radius: 8px;
+  padding: 8px;
 `;
