@@ -14,13 +14,7 @@ export default function Wrapper({ status }: IWrapper) {
   return (
     <CardList>
       {campaign.map((campaignItem: ICampaignItem) => (
-        <Card
-          key={campaignItem.id}
-          campaignItem={campaignItem}
-          onDelete={() => {
-            console.log('delete');
-          }}
-        />
+        <Card key={campaignItem.id} campaignItem={campaignItem} />
       ))}
     </CardList>
   );

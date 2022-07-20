@@ -1,5 +1,8 @@
 import React, { MouseEvent, useState } from 'react';
 import { ICampaignItem } from '../../types/campaign';
+import { deleteCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
+import { useQueryClient } from 'react-query';
+import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import styled from 'styled-components';
 import { Button, Card as DefaultCard, CardActions, CardContent, CardHeader } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +11,12 @@ import CardPopover from './CardPopover';
 
 interface CardProps {
   campaignItem: ICampaignItem;
-  onDelete: (id: number) => void;
 }
 
-function Card({ campaignItem, onDelete }: CardProps) {
+function Card({ campaignItem }: CardProps) {
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const queryClient = useQueryClient();
+  const { mutateAsync } = deleteCampaign(campaignItem.id);
 
   const navigate = useNavigate();
 
@@ -24,8 +28,11 @@ function Card({ campaignItem, onDelete }: CardProps) {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleDeleteClick = () => {
-    onDelete(campaignItem.id);
+  const handleDeleteClick = async () => {
+    await mutateAsync();
+    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
+
+    setAnchorEl(null);
   };
 
   const handlePopoverClose = () => {
