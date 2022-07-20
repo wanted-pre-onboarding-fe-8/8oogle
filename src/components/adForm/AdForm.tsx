@@ -16,6 +16,7 @@ import { ICampaignItem } from '../../types/campaign';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 import useInput from '../../hooks/useInput';
 import CurrencyField from './CurrencyField';
+import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
   campaignItem?: ICampaignItem;
@@ -27,6 +28,7 @@ interface CardProps {
 function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
   const [isEndDateNull, setIsEndDateNull] = useState(false);
+  const navigate = useNavigate();
 
   const setNestedReportValue = (key: string, value: string | number) => {
     setValues((pre) => ({ ...pre, report: { ...pre.report, [key]: value } }));
@@ -160,7 +162,12 @@ function AdForm({ campaignItem = mockItem, title, onSubmit, onCancle }: CardProp
           ))}
         </Grid>
         <ButtonGroup variant='contained' sx={{ marginTop: 3, float: 'right' }}>
-          <Button variant='outlined' onClick={onCancle}>
+          <Button
+            variant='outlined'
+            onClick={() => {
+              navigate('/ad');
+            }}
+          >
             취소
           </Button>
           <Button type='submit'>등록</Button>
