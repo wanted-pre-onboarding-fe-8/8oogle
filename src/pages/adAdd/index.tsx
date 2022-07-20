@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Alert, Typography } from '@mui/material';
 import AdForm from '../../components/adForm/AdForm';
 import { ICampaignItemBase } from '../../types/campaign';
-import { createCampaign } from '../../queries/queryRequest';
+import { createCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
 import { useNavigate } from 'react-router-dom';
+import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
 
 function AdAdd() {
   const navigate = useNavigate();
-  const { mutate, isError } = createCampaign();
+  const { mutateAsync, isError } = createCampaign();
   const [validValue, setValidValue] = useState(true);
 
   const validateValues = (values: ICampaignItemBase) => {
@@ -17,32 +18,17 @@ function AdAdd() {
       }
     }
     return true;
-  }; // endDate따로 처리해줘야 함.
+  };
 
-  const onSubmit = (values: ICampaignItemBase) => {
-    // if (!validateValues(values)) {
-    //   setValidValue(false);
-    // } else {
-    //   mutate(
-    //     { ...values, id: Date.now() },
-    //     {
-    //       onError: (error) => console.log('뮤테이션에러', error),
-    //       onSuccess: (data) => {
-    //         console.log('성공쓰', data);
-    //         navigate(-1);
-    //       },
-    //     },
-    //   );
-    // }
-    mutate(
-      { ...values, startDate: values.startDate + 'T00:00:00', id: Date.now() },
-      {
-        onError: (error) => console.log('뮤테이션에러', error),
-        onSuccess: (data) => {
-          console.log('성공쓰', data);
-        },
+  const onSubmit = async (values: ICampaignItemBase) => {
+    await mutateAsync(values, {
+      onSuccess: (data) => {
+        console.log('success', data);
+        navigate('/ad');
       },
-    );
+    });
+    // await invalidateQueriesByName(CAMPAIGN_CONSTANTS.CAMPAIGN);
+    // navigate('/ad');
   };
 
   return (
