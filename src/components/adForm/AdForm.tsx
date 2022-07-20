@@ -124,7 +124,7 @@ function AdForm({ campaignItem, title, onSubmit }: CardProps) {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNestedReportValue('convValue', Number(e.target.value))
           }
-          value={values.report.convValue}
+          value={values.report.convValue || ''}
           endAdornment='번'
         />
       ),
@@ -138,7 +138,7 @@ function AdForm({ campaignItem, title, onSubmit }: CardProps) {
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setNestedReportValue('roas', Number(e.target.value))
           }
-          value={values.report.roas}
+          value={values.report.roas || ''}
           endAdornment='번'
         />
       ),

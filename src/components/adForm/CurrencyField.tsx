@@ -9,7 +9,8 @@ const CurrencyField = ({
   setCurrencyValue: (value: number) => void;
   initialValue: number;
 }) => {
-  const [money, setMoney] = useState(`${initialValue}`);
+  const init = initialValue || '';
+  const [money, setMoney] = useState(`${init}`);
   return (
     <FormControl>
       <Input
@@ -22,10 +23,11 @@ const CurrencyField = ({
           setCurrencyValue(numberOfValue);
           setMoney(numberOfValue.toLocaleString());
         }}
-        value={money}
-        error={!money}
+        value={money || ''}
       />
-      <FormHelperText>{currencyFormatter(Number(money.replaceAll(',', '')))}</FormHelperText>
+      {money && (
+        <FormHelperText>{currencyFormatter(Number(money.replaceAll(',', '')))}</FormHelperText>
+      )}
     </FormControl>
   );
 };
