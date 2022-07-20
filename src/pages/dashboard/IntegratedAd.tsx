@@ -1,9 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { experimentalStyled } from '@mui/material/styles';
-import styled from 'styled-components';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import React from 'react';
 import Indicators from './Indicators';
 import { IOverallItems, IOverallItem } from '../../types/overall';
 
@@ -11,16 +6,12 @@ interface IDataListType {
   ListType: number[];
 }
 
-interface IIntergratedAdProps {
+interface IIntegratedAdProps {
   prevOverall: IOverallItems;
   currOverall: IOverallItems;
 }
 
-interface Idate {
-  data: number[] | any | any[];
-}
-
-function IntergratedAd({ prevOverall, currOverall }: IIntergratedAdProps): JSX.Element {
+function IntegratedAd({ prevOverall, currOverall }: IIntegratedAdProps): JSX.Element {
   const roasList: IDataListType['ListType'] = [];
   const costList: IDataListType['ListType'] = [];
   const impList: IDataListType['ListType'] = [];
@@ -73,12 +64,4 @@ function IntergratedAd({ prevOverall, currOverall }: IIntergratedAdProps): JSX.E
   );
 }
 
-export default IntergratedAd;
-
-const ContentWrapper = experimentalStyled(Grid)({});
-const TitleArea = experimentalStyled(Grid)({});
-const Title = experimentalStyled(Box)({
-  fontSize: '2rem',
-  fontWeight: '700',
-  marginTop: '2rem',
-});
+export default IntegratedAd;
