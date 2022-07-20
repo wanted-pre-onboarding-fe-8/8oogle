@@ -29,14 +29,16 @@ function Dashboard() {
   return (
     <Container>
       <InnerContainer>
-        <Select value={rangeDate} onChange={handleSelectChange}>
-          {selectItems.map((item: string) => (
-            <MenuItem key={item} value={item}>
-              {item}
-            </MenuItem>
-          ))}
-        </Select>
-
+        <HeaderContainer>
+          <Title>대시보드</Title>
+          <Select value={rangeDate} onChange={handleSelectChange}>
+            {selectItems.map((item: string) => (
+              <MenuItem key={item} value={item}>
+                {item}
+              </MenuItem>
+            ))}
+          </Select>
+        </HeaderContainer>
         <Suspense fallback={<Loader />}>
           <Wrapper
             currStartDate={currStartDate}
@@ -55,10 +57,24 @@ export default Dashboard;
 const Container = styled.main`
   grid-area: outlet;
   height: 300vh;
+  background-color: #f6f5f7;
 `;
 const InnerContainer = styled.div`
   max-width: 1024px;
   margin: 0 auto;
+`;
+
+const HeaderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+`;
+
+const Title = styled.div`
+  margin: 30px 0px;
+  font-size: 24px;
+  font-weight: 600;
 `;
 
 function getSelectItems(): string[] {

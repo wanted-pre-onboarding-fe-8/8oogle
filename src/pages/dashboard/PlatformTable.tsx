@@ -36,7 +36,7 @@ const initReducer: { [key in platforms]: reducerType } = {
 };
 
 // data는 임시 props. data props로 platform 데이터를 받는 거 가정.
-export default function PlatformTable({ data = dummyData }: { data?: IPlatformItems }) {
+export default function PlatformTable({ data }: { data: IPlatformItems }) {
   const [rows, setRows] = React.useState<reducerType[]>([]);
   React.useEffect(() => {
     const sumOfData: reducerType = { ...initialValue, channel: 'sum' };
@@ -63,7 +63,7 @@ export default function PlatformTable({ data = dummyData }: { data?: IPlatformIt
     newRows.push(sumOfData);
 
     setRows(newRows);
-  }, []);
+  }, [data]);
 
   return (
     <div style={{ width: '100%' }}>

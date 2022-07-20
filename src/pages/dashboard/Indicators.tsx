@@ -72,100 +72,98 @@ export default function Indicators({
   }
 
   return (
-    <Box sx={{ p: 4 }}>
-      <CardWrapper container spacing={0}>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>Roas</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumRoas.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareRoas ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(ROAS)}>{compareRoas.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>광고비</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumCost.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareCost ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(COST)}>{compareCost.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>노출수</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumImp.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareImp ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(IMP)}>{compareImp.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>클릭수</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumClick.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareClick ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(CLICK)}>{compareClick.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>전환수</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumCvr.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareCvr ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(CVR)}>{compareCvr.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-        <ContentWraper item xs={2} sm={4}>
-          <Title p={2}>매출</Title>
-          <Content item xs={6} sm={6}>
-            <Value p={2}>{sumConvValue.toFixed(2)}</Value>
-          </Content>
-          <Content item xs={6} sm={6}>
-            <ChangeValue p={2}>
-              {!compareConvValue ? (
-                <NoEvent>--</NoEvent>
-              ) : (
-                <Event active={compareValueAction(CONV_VALUE)}>{compareConvValue.toFixed(1)}</Event>
-              )}
-            </ChangeValue>
-          </Content>
-        </ContentWraper>
-      </CardWrapper>
-    </Box>
+    <CardWrapper container spacing={0}>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>Roas</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumRoas.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareRoas ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(ROAS)}>{compareRoas.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>광고비</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumCost.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareCost ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(COST)}>{compareCost.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>노출수</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumImp.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareImp ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(IMP)}>{compareImp.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>클릭수</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumClick.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareClick ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(CLICK)}>{compareClick.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>전환수</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumCvr.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareCvr ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(CVR)}>{compareCvr.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+      <ContentWraper item xs={2} sm={4}>
+        <Title p={2}>매출</Title>
+        <Content item xs={6} sm={6}>
+          <Value p={2}>{sumConvValue.toFixed(2)}</Value>
+        </Content>
+        <Content item xs={6} sm={6}>
+          <ChangeValue p={2}>
+            {!compareConvValue ? (
+              <NoEvent>--</NoEvent>
+            ) : (
+              <Event active={compareValueAction(CONV_VALUE)}>{compareConvValue.toFixed(1)}</Event>
+            )}
+          </ChangeValue>
+        </Content>
+      </ContentWraper>
+    </CardWrapper>
   );
 }
 
@@ -176,7 +174,7 @@ const CardWrapper = experimentalStyled(Grid)({
   margin: 'auto',
   padding: '3rem',
   borderRadius: '10px',
-  boxShadow: '10px 10px 30px #e8e8e8',
+  // boxShadow: '10px 10px 30px #e8e8e8',
 });
 
 const Title = experimentalStyled(Grid)({
