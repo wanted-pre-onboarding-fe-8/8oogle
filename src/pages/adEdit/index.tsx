@@ -27,7 +27,9 @@ function AdEdit() {
     navigate('/ad');
   };
 
-  return hasState && <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />;
+  return (
+    <>{hasState && <AdForm campaignItem={campaign} title={FORM_TITLE} onSubmit={handleSubmit} />}</>
+  );
 }
 
 export default AdEdit;
