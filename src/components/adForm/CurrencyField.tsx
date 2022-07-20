@@ -2,8 +2,14 @@ import { FormControl, FormHelperText, Input, InputAdornment } from '@mui/materia
 import { ChangeEvent, useState } from 'react';
 import { currencyFormatter } from '../../utils/helpers/formatters';
 
-const CurrencyField = ({ setCurrencyValue }: { setCurrencyValue: (value: number) => void }) => {
-  const [money, setMoney] = useState('0');
+const CurrencyField = ({
+  setCurrencyValue,
+  initialValue,
+}: {
+  setCurrencyValue: (value: number) => void;
+  initialValue: number;
+}) => {
+  const [money, setMoney] = useState(`${initialValue}`);
   return (
     <FormControl>
       <Input
