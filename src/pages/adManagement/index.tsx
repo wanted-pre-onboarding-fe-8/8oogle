@@ -7,6 +7,7 @@ import { Button, Container, FormControl, Typography } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
 import styled from 'styled-components';
+import Loader from '../../components/Loader';
 
 const ALL = '전체';
 const ACTIVE = '진행중';
@@ -48,7 +49,7 @@ function AdManagement() {
           </FormControl>
           <Button onClick={createAd}>광고 만들기</Button>
         </ButtonWrapper>
-        <Suspense fallback={<div>Loading</div>}>
+        <Suspense fallback={<Loader />}>
           <Wrapper status={getStatusEn(statusKo)} />
         </Suspense>
       </Layout>

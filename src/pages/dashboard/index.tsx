@@ -3,8 +3,8 @@ import { format, addDays, subDays } from 'date-fns';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Wrapper from './Wrapper';
-import Loader from './Loader';
 import styled from 'styled-components';
+import Loader from '../../components/Loader';
 
 const FIRST_DATE = new Date('2022-02-01');
 const LAST_DATE = new Date('2022-04-20');
