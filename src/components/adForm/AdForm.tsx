@@ -19,12 +19,12 @@ import CurrencyField from './CurrencyField';
 import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
-  campaignItem?: ICampaignItem;
+  campaignItem: ICampaignItem;
   onSubmit: (value: ICampaignItem) => void;
   title: string;
 }
 
-function AdForm({ campaignItem = mockItem, title, onSubmit }: CardProps) {
+function AdForm({ campaignItem, title, onSubmit }: CardProps) {
   const [values, setValues, onChange] = useInput<ICampaignItem>(campaignItem);
   const [isEndDateNull, setIsEndDateNull] = useState(false);
   const navigate = useNavigate();
@@ -39,8 +39,7 @@ function AdForm({ campaignItem = mockItem, title, onSubmit }: CardProps) {
       content: (
         <Select name='adType' value={values.adType} onChange={onChange}>
           <MenuItem value='web'>웹광고</MenuItem>
-          <MenuItem value='mobile'>모바일광고</MenuItem>
-          <MenuItem value='paper'>지면광고</MenuItem>
+          <MenuItem value='app'>모바일광고</MenuItem>
         </Select>
       ),
     },
@@ -196,20 +195,5 @@ const BasicCard = styled(DefaultCard)`
   max-width: 1000px;
   padding: 50px;
 `;
-
-const mockItem = {
-  id: Date.now(),
-  adType: 'web',
-  title: '',
-  budget: 0,
-  status: CAMPAIGN_CONSTANTS.STATUS_ACTIVE,
-  startDate: '',
-  endDate: null,
-  report: {
-    cost: 0,
-    convValue: 0,
-    roas: 0,
-  },
-};
 
 export default AdForm;
