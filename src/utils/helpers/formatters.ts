@@ -12,8 +12,8 @@ export function currencyFormatter(value: number) {
       value %= currency;
     }
   });
-
-  formattedValue += value + '원';
+  if (value > 0) formattedValue += value;
+  formattedValue += '원';
 
   return formattedValue;
 }
