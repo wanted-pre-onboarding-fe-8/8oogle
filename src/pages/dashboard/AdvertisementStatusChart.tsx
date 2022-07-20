@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,9 +21,7 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
   const [selectId1, setSelectId1] = React.useState<string>(ROAS);
   const [selectId2, setSelectId2] = React.useState<string>(CLICK);
 
-  const [series, setSeries] = React.useState<ApexAxisChartSeries>(
-    createAdvertismentSeries(items, selectId1, selectId2),
-  );
+  const [series, setSeries] = React.useState<ApexAxisChartSeries>([]);
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     if (event.target.name === 'selectId1') {
@@ -31,14 +29,16 @@ export default function AdvertisementStatusChart({ items }: PlatformChartProps):
     } else {
       setSelectId2(event.target.value as string);
     }
-
-    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
-    setSeries(getSeries);
   };
 
   const dateCategories = items.map((overallItem: IOverallItem): string =>
     format(new Date(overallItem.date), DATE_TYPE_MM_DD),
   );
+
+  useEffect(() => {
+    const getSeries = createAdvertismentSeries(items, selectId1, selectId2);
+    setSeries(getSeries);
+  }, [items, selectId1, selectId2]);
 
   const chartOptions: ApexOptions = {
     chart: {
