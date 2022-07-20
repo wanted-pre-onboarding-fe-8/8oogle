@@ -40,7 +40,7 @@ function CardTable({ campaignItem }: CardTableProps) {
     startDate: format(date, 'yyyy-MM-dd'),
     budget: `${campaignItem.budget / 10000}만원`,
     roas: `${campaignItem.report.roas}%`,
-    convValue: `${getSales(campaignItem.report.cost, campaignItem.report.roas)}만원`,
+    convValue: `${Math.floor(getSales(campaignItem.report.cost, campaignItem.report.roas))}만원`,
     cost: `${Math.floor(campaignItem.report.cost / 10000).toLocaleString()}만원`,
   };
 
