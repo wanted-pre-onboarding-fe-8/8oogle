@@ -1,4 +1,4 @@
-import { useQuery, useMutation, QueryClient } from 'react-query';
+import { useQuery, useMutation, useQueryClient, QueryClient } from 'react-query';
 import { get, post, put, _delete } from './httpRequest';
 import { typeStatus, ICampaignItemBase } from '../types/campaign';
 import { overallService, platformService, campaignService } from './services';
@@ -23,20 +23,43 @@ export function getCampaignByStatus(status: typeStatus) {
   return useQuery([CAMPAIGN, status], () => get(campaignService, query));
 }
 
-export function createCampaign() {
-  return useMutation((campaign: ICampaignItemBase) => post(campaignService, campaign));
+export function useCreateCampaign() {
+  const { mutateAsync } = useMutation((campaign: ICampaignItemBase) =>
+    post(campaignService, campaign),
+  );
+
+  const queryClient = useQueryClient();
+
+  return async function (campaign: ICampaignItemBase) {
+    await mutateAsync(campaign);
+    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
+  };
 }
 
-export function updateCampaign(id: number) {
+export function useUpdateCampaign(id: number) {
   const query = `/${id}`;
+  const { mutateAsync } = useMutation((campaign: ICampaignItemBase) =>
+    put(campaignService, query, campaign),
+  );
 
-  return useMutation((campaign: ICampaignItemBase) => put(campaignService, query, campaign));
+  const queryClient = useQueryClient();
+
+  return async function (campaign: ICampaignItemBase) {
+    await mutateAsync(campaign);
+    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
+  };
 }
 
-export function deleteCampaign(id: number) {
+export function useDeleteCampaign(id: number) {
   const query = `/${id}`;
+  const { mutateAsync } = useMutation(() => _delete(campaignService, query));
 
-  return useMutation(() => _delete(campaignService, query));
+  const queryClient = useQueryClient();
+
+  return async function () {
+    await mutateAsync();
+    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
+  };
 }
 
 type typeDataName = typeof OVERALL | typeof PLATFORM | typeof CAMPAIGN;
