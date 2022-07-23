@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { Alert } from '@mui/material';
 import AdForm from '../../components/adForm/AdForm';
 import { ICampaignItemBase } from '../../types/campaign';
-import { createCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
+import { useCreateCampaign } from '../../queries/queryRequest';
 import { useNavigate } from 'react-router-dom';
 import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
-import { useQueryClient } from 'react-query';
 
 function AdAdd() {
   const navigate = useNavigate();
 
-  const { mutateAsync } = createCampaign();
-  const queryClient = useQueryClient();
+  const mutateAsync = useCreateCampaign();
 
   const [validValue, setValidValue] = useState(true);
   const [errorMessage, setErrorMessage] = useState(
@@ -54,7 +52,6 @@ function AdAdd() {
     if (validateValues(values)) {
       setValidValue(true);
       await mutateAsync({ ...values });
-      await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
       navigate('/ad');
     } else {
       setValidValue(false);
