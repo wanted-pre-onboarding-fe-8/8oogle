@@ -1,10 +1,8 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useQueryClient } from 'react-query';
 import { ICampaignItem } from '../../types/campaign';
 import AdForm from '../../components/adForm/AdForm';
-import { updateCampaign, invalidateQueriesByName } from '../../queries/queryRequest';
-import { CAMPAIGN_CONSTANTS } from '../../utils/constants/data';
+import { useUpdateCampaign } from '../../queries/queryRequest';
 import styled from 'styled-components';
 
 function AdEdit() {
@@ -13,8 +11,8 @@ function AdEdit() {
   const campaign = location.state as ICampaignItem;
   const navigate = useNavigate();
   const hasState = location.state;
-  const { mutateAsync } = updateCampaign(campaign.id);
-  const queryClient = useQueryClient();
+
+  const mutateAsync = useUpdateCampaign(campaign.id);
 
   React.useEffect(() => {
     if (!hasState) {
@@ -24,7 +22,6 @@ function AdEdit() {
 
   const handleSubmit = async (campaign: ICampaignItem) => {
     await mutateAsync(campaign);
-    await invalidateQueriesByName(queryClient, CAMPAIGN_CONSTANTS.CAMPAIGN);
     navigate('/ad');
   };
 
